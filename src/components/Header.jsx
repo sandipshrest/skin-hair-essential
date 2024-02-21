@@ -15,7 +15,7 @@ const Header = () => {
             className="border border-black rounded p-1"
           />
         </div>
-        <nav>
+        {/* <nav>
           <ul className="flex items-center gap-6 text-lg font-medium">
             <li>
               <Link to="#">Home</Link>
@@ -33,7 +33,7 @@ const Header = () => {
               <Link to="#">Contact</Link>
             </li>
           </ul>
-        </nav>
+        </nav> */}
         <div className="flex items-center gap-4">
           <button>Cart</button>
           <button>Wishlist</button>
