@@ -1,12 +1,26 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { LuSearch } from "react-icons/lu";
 import { FaRegHeart, FaRegUser } from "react-icons/fa";
 import { BsCart3 } from "react-icons/bs";
 
 const Header = () => {
+  const [scrolled, setScrolled] = useState(false);
+
+  const handleScroll = () => {
+    const scrollTop = window.scrollY;
+    setScrolled(scrollTop > 0);
+  };
+
+  useEffect(() => {
+    window.addEventListener("scroll", handleScroll);
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
+
   return (
-    <header className="py-3 fixed w-full top-0 z-50">
+    <header className={`py-3 fixed w-full top-0 z-50 transition-all duration-200 ease-linear ${scrolled ? 'bg-white shadow-md' : 'bg-transparent'}`}>
       <div className="container flex items-center justify-between">
         <div className="flex items-center gap-32">
           <Link to="/">
@@ -33,9 +47,16 @@ const Header = () => {
           </nav>
         </div>
         <div className="flex items-center gap-8 text-lg">
-          <button>
-            <LuSearch className="text-xl" />
-          </button>
+          <div className="w-auto relative">
+            <input
+              type="text"
+              placeholder="Search product..."
+              className="bg-white py-[6px] px-3 w-80 text-black placeholder:text-black text-sm focus:outline-none border border-gray-600 bg-opacity-60 rounded-2xl"
+            />
+            <button className="absolute top-1/2 -translate-y-1/2 right-3">
+              <LuSearch className="text-xl" />
+            </button>
+          </div>
           <button>
             <BsCart3 />
           </button>

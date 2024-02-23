@@ -7,7 +7,7 @@ const Feature = () => {
       <div className="container grid grid-cols-3">
         {FeatureData?.map((item, id) => (
           <div key={id} className="flex flex-col items-center gap-5">
-            <i className={`${item.icon} text-3xl text-gray-900`} ></i>
+            <i className={`${item.icon} text-3xl text-gray-900`}></i>
             <h2 className="text-xl font-semibold text-center uppercase">
               {item.title}
             </h2>
