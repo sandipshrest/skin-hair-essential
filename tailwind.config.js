@@ -17,8 +17,8 @@ export default {
     },
     extend: {
       colors: {
-        color1: "#d10069",
-        color2: "#bc005e",
+        color1: "#139438",
+        color2: "#175785",
       },
       fontFamily: {
         custom: ["Times New Roman", "sans"],

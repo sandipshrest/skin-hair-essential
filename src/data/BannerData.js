@@ -1,18 +1,13 @@
 const data = [
   {
     id: 1,
-    imageUrl: "/images/banner-images/kuwait.webp",
-    slogan: "Empowering Your Workforce, Elevating Your Success",
+    imageUrl: "/images/banner-image/img1.png",
+    slogan: "Transforming Beauty, One Glow at a Time",
   },
   {
     id: 2,
-    imageUrl: "/images/banner-images/malaysia.webp",
-    slogan: "Human Capital Solutions, Beyond Expectations",
-  },
-  {
-    id: 3,
-    imageUrl: "/images/banner-images/qatar.webp",
-    slogan: "Building Careers, Connecting Talent",
+    imageUrl: "/images/banner-image/img2.png",
+    slogan: "Nature Beauty Your Skin, Your Hair, Our Care",
   },
 ];
 
