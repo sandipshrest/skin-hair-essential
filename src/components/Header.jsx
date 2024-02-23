@@ -6,11 +6,11 @@ import { BsCart3 } from "react-icons/bs";
 
 const Header = () => {
   return (
-    <header className="py-3 sticky top-0 bg-white z-50">
+    <header className="py-3 fixed w-full top-0 z-50">
       <div className="container flex items-center justify-between">
         <div className="flex items-center gap-32">
           <Link to="/">
-            <img src="/images/logo.jpg" alt="logo" className="size-16" />
+            <img src="/images/logo.png" alt="logo" className="size-16" />
           </Link>
           <nav>
             <ul className="flex items-center gap-6 text-lg font-medium">
@@ -21,7 +21,10 @@ const Header = () => {
                 <Link to="#">About</Link>
               </li>
               <li>
-                <Link to="#">Categories</Link>
+                <Link to="#">Shop</Link>
+              </li>
+              <li>
+                <Link to="#">Blog</Link>
               </li>
               <li>
                 <Link to="#">Contact</Link>

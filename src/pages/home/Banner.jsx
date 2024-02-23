@@ -16,7 +16,7 @@ import BannerData from "../../data/BannerData";
 
 const Banner = () => {
   return (
-    <section className="w-full h-auto bg-green-100">
+    <section className="w-full h-auto bg-gradient-to-tr from-green-100 to-blue-100">
       <Swiper
         modules={[Pagination, Scrollbar, A11y, Autoplay, EffectFade]}
         spaceBetween={10}
@@ -33,16 +33,16 @@ const Banner = () => {
         pagination={{
           clickable: true,
         }}
-        autoplay={{ delay: 5000 }}
+        autoplay={{ delay: 6000 }}
         effect="fade"
         fadeEffect={{
           crossFade: true,
         }}
-        speed={3000}
+        speed={4000}
       >
         {BannerData.map((item, index) => (
           <SwiperSlide key={index}>
-            <div className="container h-full w-full flex justify-between items-center inset-0 pt-[78px]">
+            <div className="container h-full w-full flex justify-between items-center inset-0">
               <div className="xl:w-1/2 md:w-2/3 w-full flex flex-col items-start gap-5">
                 <h1 className="lg:text-6xl md:text-5xl sm:text-4xl text-3xl font-semibold">
                   <span className="mr-1 text-color2">
@@ -62,7 +62,7 @@ const Banner = () => {
               <div>
                 <img
                   src={item.imageUrl}
-                  className="w-full lg:h-[700px] md:h-[600px] sm:h-[500px] h-[350px] object-cover"
+                  className="w-full lg:h-[850px] md:h-[600px] sm:h-[500px] h-[350px] object-cover"
                   alt="banner-image"
                 />
               </div>
