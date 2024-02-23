@@ -57,9 +57,9 @@ const Header = () => {
               <LuSearch className="text-xl" />
             </button>
           </div>
-          <button>
+          <Link to="/cart">
             <BsCart3 />
-          </button>
+          </Link>
           <button>
             <FaRegHeart />
           </button>
