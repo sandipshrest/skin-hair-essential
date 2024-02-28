@@ -11,7 +11,7 @@ const FeatureProduct = () => {
       <div className="container flex flex-col items-start gap-10">
         <h2 className="text-3xl font-semibold">Featured Products</h2>
         <div className="w-full grid grid-cols-4 gap-10">
-          {featuredProduct?.map((product, productId) => (
+          {featuredProduct?.slice(0, 4).map((product, productId) => (
             <ProductItem key={productId} product={product} />
           ))}
         </div>

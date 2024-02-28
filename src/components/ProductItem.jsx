@@ -4,8 +4,8 @@ import { Link } from "react-router-dom";
 const ProductItem = ({ product }) => {
   return (
     <Link
-      to={"#"}
-      className="flex flex-col group rounded-lg overflow-hidden bg-white shadow-sm"
+      to={`/products/${product.productName}`}
+      className="flex flex-col group rounded overflow-hidden bg-white shadow-sm"
     >
       <div className="relative w-full h-auto overflow-hidden">
         <img
