@@ -19,6 +19,7 @@ export default {
       colors: {
         color1: "#139438",
         color2: "#175785",
+        color3: "#1B3C73",
       },
       fontFamily: {
         custom: ["Times New Roman", "sans"],

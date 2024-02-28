@@ -1,78 +1,72 @@
 export default [
   {
     id: 1,
-    companyName: "Sandip",
-    products: [
-      {
-        id: 1,
-        category: "Skin Care",
-        productList: [
-          {
-            id: 1,
-            productName: "",
-            image: "",
-          },
-          {
-            id: 2,
-            productName: "",
-            image: "",
-          },
-          {
-            id: 3,
-            productName: "",
-            image: "",
-          },
-        ],
-      },
-      {
-        id: 2,
-        category: "Hair Care",
-        productList: [
-          {
-            id: 1,
-            productName: "",
-            image: "",
-          },
-        ],
-      },
-    ],
+    companyName: "Comapny 1",
+    category: "Skin Care",
+    isFeatured: false,
+    productName: "Alogel skin protecting botanical",
+    price: 2000,
+    image: "/images/product-images/alogel.png",
+    desc: "Lorem ipsum, dolor sit amet consectetur adipisicing elit. Natus quidem illo ipsum atque asperiores corporis sequi vero nulla error ab minus aut magnam eum, soluta voluptas temporibus consequuntur officiis animi.",
   },
   {
     id: 2,
-    companyName: "Bikram",
-    products: [
-      {
-        id: 1,
-        category: "Skin Care",
-        productList: [
-          {
-            id: 1,
-            productName: "",
-            image: "",
-          },
-          {
-            id: 2,
-            productName: "",
-            image: "",
-          },
-          {
-            id: 3,
-            productName: "",
-            image: "",
-          },
-        ],
-      },
-      {
-        id: 2,
-        category: "Hair Care",
-        productList: [
-          {
-            id: 1,
-            productName: "",
-            image: "",
-          },
-        ],
-      },
-    ],
+    companyName: "Comany 2",
+    category: "Skin Care",
+    isFeatured: true,
+    productName: "Foram Cleanser",
+    price: 1500,
+    image: "/images/product-images/foam.png",
+    desc: "Lorem ipsum, dolor sit amet consectetur adipisicing elit. Natus quidem illo ipsum atque asperiores corporis sequi vero nulla error ab minus aut magnam eum, soluta voluptas temporibus consequuntur officiis animi.",
+  },
+  {
+    id: 3,
+    companyName: "Comany 3",
+    category: "Skin Care",
+    isFeatured: false,
+    productName: "Mellow Soap",
+    price: 2000,
+    image: "/images/product-images/mellow.png",
+    desc: "Lorem ipsum, dolor sit amet consectetur adipisicing elit. Natus quidem illo ipsum atque asperiores corporis sequi vero nulla error ab minus aut magnam eum, soluta voluptas temporibus consequuntur officiis animi.",
+  },
+  {
+    id: 4,
+    companyName: "Comany 1",
+    category: "Skin Care",
+    isFeatured: true,
+    productName: "Bluebell Whisper",
+    price: 2000,
+    image: "/images/product-images/bluebell.png",
+    desc: "Lorem ipsum, dolor sit amet consectetur adipisicing elit. Natus quidem illo ipsum atque asperiores corporis sequi vero nulla error ab minus aut magnam eum, soluta voluptas temporibus consequuntur officiis animi.",
+  },
+  {
+    id: 5,
+    companyName: "Comany 1",
+    category: "Hair Care",
+    isFeatured: false,
+    productName: "HARAPPA Cold Pressed Vrigin Coconut Oil",
+    price: 1200,
+    image: "/images/product-images/harappa.png",
+    desc: "Lorem ipsum, dolor sit amet consectetur adipisicing elit. Natus quidem illo ipsum atque asperiores corporis sequi vero nulla error ab minus aut magnam eum, soluta voluptas temporibus consequuntur officiis animi.",
+  },
+  {
+    id: 5,
+    companyName: "Comany 3",
+    category: "Hair Care",
+    isFeatured: true,
+    productName: "Herbal hair oil",
+    price: 2000,
+    image: "/images/product-images/herbal.png",
+    desc: "Lorem ipsum, dolor sit amet consectetur adipisicing elit. Natus quidem illo ipsum atque asperiores corporis sequi vero nulla error ab minus aut magnam eum, soluta voluptas temporibus consequuntur officiis animi.",
+  },
+  {
+    id: 5,
+    companyName: "Comany 2",
+    category: "Hair Care",
+    isFeatured: true,
+    productName: "Pureborn Hair oil",
+    price: 2000,
+    image: "/images/product-images/pureborn.png",
+    desc: "Lorem ipsum, dolor sit amet consectetur adipisicing elit. Natus quidem illo ipsum atque asperiores corporis sequi vero nulla error ab minus aut magnam eum, soluta voluptas temporibus consequuntur officiis animi.",
   },
 ];
