@@ -21,7 +21,7 @@ const ProductDetail = () => {
               <img
                 src={productDetail.image}
                 alt={productName}
-                className="w-full h-[450px] object-contain bg-color1 bg-opacity-30"
+                className="w-full h-[450px] object-contain bg-color2 bg-opacity-20"
               />
             </div>
             <div className="w-2/3 flex flex-col gap-2">

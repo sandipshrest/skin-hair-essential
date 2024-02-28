@@ -20,7 +20,11 @@ const Header = () => {
   }, []);
 
   return (
-    <header className={`py-3 fixed w-full top-0 z-50 transition-all duration-200 ease-linear ${scrolled ? 'bg-white shadow-md' : 'bg-transparent'}`}>
+    <header
+      className={`py-3 fixed w-full top-0 z-50 transition-all duration-200 ease-linear ${
+        scrolled ? "bg-white shadow-md" : "bg-transparent"
+      }`}
+    >
       <div className="container flex items-center justify-between">
         <div className="flex items-center gap-32">
           <Link to="/">
@@ -29,7 +33,7 @@ const Header = () => {
           <nav>
             <ul className="flex items-center gap-6 text-lg font-medium">
               <li>
-                <Link to="#">Home</Link>
+                <Link to="/">Home</Link>
               </li>
               <li>
                 <Link to="#">About</Link>
