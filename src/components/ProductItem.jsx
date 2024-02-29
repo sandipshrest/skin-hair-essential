@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 
 const ProductItem = ({ product }) => {
   return (
-    <div className="flex flex-col group rounded overflow-hidden bg-white shadow-sm">
+    <div className="flex flex-col group rounded overflow-hidden border bg-white hover:shadow-md">
       <div className="relative w-full h-auto overflow-hidden">
         <Link
           to={`/products/${product.productName}`}

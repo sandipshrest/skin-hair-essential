@@ -7,7 +7,7 @@ const FeatureProduct = () => {
     (product) => product.isFeatured === true
   );
   return (
-    <section className="py-24 bg-gray-50">
+    <section className="py-24 bg-white">
       <div className="container flex flex-col items-start gap-10">
         <h2 className="text-3xl font-semibold">Featured Products</h2>
         <div className="w-full grid grid-cols-4 gap-10">
