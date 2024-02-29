@@ -3,11 +3,13 @@ import FeatureData from "../../data/FeatureData";
 
 const Feature = () => {
   return (
-    <section className="py-16 bg-gray-100">
-      <div className="container grid grid-cols-3">
+    <section className="relative pt-32">
+      <div className="container absolute z-10 -bottom-12 left-1/2 -translate-x-1/2 w-2/3 bg-white border border-gray-400 rounded-lg py-8 grid grid-cols-3">
         {FeatureData?.map((item, id) => (
-          <div key={id} className="flex flex-col items-center gap-5">
-            <i className={`${item.icon} text-3xl text-gray-900`}></i>
+          <div key={id} className="flex items-center gap-5">
+            <div className="rounded-full bg-green-200 size-12 flex items-center justify-center">
+              <i className={`${item.icon} text-xl text-gray-900`}></i>
+            </div>
             <h2 className="text-xl font-semibold text-center uppercase">
               {item.title}
             </h2>
