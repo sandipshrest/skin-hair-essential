@@ -98,7 +98,8 @@ const Header = () => {
                               ))}
                           </ul>
                           <Link
-                            to={"#"}
+                            onClick={() => setProductMenu(false)}
+                            to={`/categories/${item.category}`}
                             className="text-base text-gray-600 underline"
                           >
                             View More
