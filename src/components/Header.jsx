@@ -3,9 +3,11 @@ import { Link } from "react-router-dom";
 import { LuSearch } from "react-icons/lu";
 import { FaRegHeart, FaRegUser } from "react-icons/fa";
 import { BsCart3 } from "react-icons/bs";
+import ProductData from "../data/ProductData";
 
 const Header = () => {
   const [scrolled, setScrolled] = useState(false);
+  const [productMenu, setProductMenu] = useState(false);
 
   const handleScroll = () => {
     const scrollTop = window.scrollY;
@@ -19,13 +21,31 @@ const Header = () => {
     };
   }, []);
 
+  const categoryData = {};
+
+  ProductData?.forEach((product) => {
+    if (!categoryData[product.category]) {
+      categoryData[product.category] = {
+        category: product.category,
+        thumbnailImage: product.image,
+        products: [product],
+      };
+    } else {
+      categoryData[product.category].products.push(product);
+    }
+  });
+
   return (
     <header
-      className={`py-3 fixed w-full top-0 z-50 transition-all duration-200 ease-linear ${
+      className={`fixed w-full top-0 z-50 transition-all duration-200 ease-linear ${
         scrolled ? "bg-white shadow-md" : "bg-transparent"
       }`}
     >
-      <div className="container flex items-center justify-between">
+      <div
+        className={`container relative flex items-center justify-between ${
+          productMenu ? "overflow-visible" : "overflow-hidden"
+        }`}
+      >
         <div className="flex items-center gap-32">
           <Link to="/">
             <img src="/images/logo.png" alt="logo" className="size-16" />
@@ -38,8 +58,56 @@ const Header = () => {
               <li>
                 <Link to="#">About</Link>
               </li>
-              <li>
-                <Link to="#">Shop</Link>
+              <li
+                className={`py-8 h-auto`}
+                onMouseLeave={() => setProductMenu(false)}
+              >
+                <button onMouseEnter={() => setProductMenu(true)}>Shop</button>
+                <div
+                  className={`bg-white w-full absolute left-0 border border-gray-300 px-8 py-6 transition-all duration-300 ease-linear ${
+                    productMenu
+                      ? "top-[92px] opacity-100"
+                      : "top-[100px] opacity-0"
+                  }`}
+                >
+                  <div className="w-full grid grid-cols-5 gap-8">
+                    {Object.values(categoryData).map((item, id) => (
+                      <div key={id} className="flex flex-col gap-4">
+                        <img
+                          src={item.thumbnailImage}
+                          alt={item.category}
+                          className="w-full h-48 bg-green-100 object-contain"
+                        />
+                        <div className="flex flex-col gap-2 grow justify-between">
+                          <h3 className="text-xl font-semibold border-b border-gray-400">
+                            {item.category}
+                          </h3>
+                          <ul className="text-base">
+                            {item.products
+                              .slice(0, 4)
+                              .map((productItem, productId) => (
+                                <li key={productId}>
+                                  <Link
+                                    onClick={() => setProductMenu(false)}
+                                    to={`/products/${productItem.productName}`}
+                                    className="inline-block w-full p-[2px] hover:bg-gray-100"
+                                  >
+                                    {productItem.productName}
+                                  </Link>
+                                </li>
+                              ))}
+                          </ul>
+                          <Link
+                            to={"#"}
+                            className="text-base text-gray-600 underline"
+                          >
+                            View More
+                          </Link>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
               </li>
               <li>
                 <Link to="#">Blog</Link>

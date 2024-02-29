@@ -6,10 +6,12 @@ import ProductItem from "../../components/ProductItem";
 const ProductDetail = () => {
   const { productName } = useParams();
   const productDetail = ProductData.find(
-    (item) => item.isFeatured === true && item.productName === productName
+    (item) => item.productName === productName
   );
   const similarProducts = ProductData.filter(
-    (item) => item.isFeatured === true && item.productName !== productName
+    (item) =>
+      item.category === productDetail?.category &&
+      item.productName !== productName
   );
   return (
     <>
