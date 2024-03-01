@@ -4,10 +4,12 @@ import { LuSearch } from "react-icons/lu";
 import { FaRegHeart, FaRegUser } from "react-icons/fa";
 import { BsCart3 } from "react-icons/bs";
 import ProductData from "../data/ProductData";
+import { useSelector } from "react-redux";
 
 const Header = () => {
   const [scrolled, setScrolled] = useState(false);
   const [productMenu, setProductMenu] = useState(false);
+  const cartItems = useSelector((state) => state.cart);
 
   const handleScroll = () => {
     const scrollTop = window.scrollY;
@@ -130,8 +132,11 @@ const Header = () => {
               <LuSearch className="text-xl" />
             </button>
           </div>
-          <Link to="/cart">
+          <Link to="/cart" className="relative">
             <BsCart3 />
+            <span className="absolute -top-2 -right-2 size-4 bg-red-600 text-xs text-white rounded-full flex items-center justify-center">
+              {cartItems.length}
+            </span>
           </Link>
           <button>
             <FaRegHeart />

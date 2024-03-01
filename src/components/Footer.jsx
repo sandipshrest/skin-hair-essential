@@ -15,13 +15,13 @@ const Footer = () => {
             />
             <div className="flex items-center gap-3">
               <a href="#" className="flex p-2 size-7 rounded-full bg-white border border-gray-500 items-center justify-center">
-                <i class="fa-brands fa-facebook-f"></i>
+                <i className="fa-brands fa-facebook-f"></i>
               </a>
               <a href="#" className="flex p-2 size-7 rounded-full bg-white border border-gray-500 items-center justify-center">
-                <i class="fa-brands fa-instagram"></i>
+                <i className="fa-brands fa-instagram"></i>
               </a>
               <a href="#" className="flex p-2 size-7 rounded-full bg-white border border-gray-500 items-center justify-center">
-                <i class="fa-brands fa-youtube"></i>
+                <i className="fa-brands fa-youtube"></i>
               </a>
             </div>
           </div>

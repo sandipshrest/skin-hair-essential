@@ -1,7 +1,10 @@
 import React from "react";
+import { useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
+import { addToCart } from "../redux/reducerSlice/CartSlice";
 
 const ProductItem = ({ product }) => {
+  const dispatch = useDispatch();
   return (
     <div className="flex flex-col group rounded overflow-hidden border bg-white hover:shadow-md">
       <div className="relative w-full h-auto overflow-hidden">
@@ -16,9 +19,12 @@ const ProductItem = ({ product }) => {
           />
         </Link>
         <button className="absolute top-2 right-2 text-white text-xl">
-          <i class="fa-solid fa-heart"></i>
+          <i className="fa-solid fa-heart"></i>
         </button>
-        <button className="absolute py-2 text-center w-full bg-black text-white text-lg left-0 -bottom-12 group-hover:bottom-0 transition-all duration-200 ease-linear">
+        <button
+          onClick={() => dispatch(addToCart(product))}
+          className="absolute py-2 text-center w-full bg-black text-white text-lg left-0 -bottom-12 group-hover:bottom-0 transition-all duration-200 ease-linear"
+        >
           Add to Cart
         </button>
       </div>
