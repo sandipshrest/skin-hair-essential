@@ -6,6 +6,7 @@ import Footer from "./components/Footer";
 import Cart from "./pages/cart/Cart";
 import ProductDetail from "./pages/products/ProductDetail";
 import Category from "./pages/categories/Category";
+import ScrollToTop from "./components/ScrollToTop";
 
 function App() {
   return (
@@ -19,6 +20,7 @@ function App() {
           <Route exact path="/products/:productName" element={<ProductDetail />} />
         </Routes>
         <Footer />
+        <ScrollToTop />
       </Router>
     </>
   );
