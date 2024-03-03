@@ -2,6 +2,9 @@ import React from "react";
 import { useParams } from "react-router-dom";
 import ProductData from "../../data/ProductData";
 import ProductItem from "../../components/ProductItem";
+import { useDispatch, useSelector } from "react-redux";
+import { addToWishlist } from "../../redux/reducerSlice/WishlistSlice";
+import { addToCart } from "../../redux/reducerSlice/CartSlice";
 
 const ProductDetail = () => {
   const { productName } = useParams();
@@ -13,6 +16,19 @@ const ProductDetail = () => {
       item.category === productDetail?.category &&
       item.productName !== productName
   );
+
+  const dispatch = useDispatch();
+  const cartItems = useSelector((state) => state.cart);
+  const wishlistItems = useSelector((state) => state.wishlist);
+
+  const isItemInCart = (item) => {
+    return cartItems?.some((cartItem) => cartItem.id === item.id);
+  };
+
+  const isItemInWishlist = (item) => {
+    return wishlistItems?.some((wishlistItem) => wishlistItem.id === item.id);
+  };
+
   return (
     <>
       <section className="py-20"></section>
@@ -39,10 +55,26 @@ const ProductDetail = () => {
               </p>
               <b className="text-xl font-bold">Price: {productDetail.price}</b>
               <div className="flex items-center gap-3 mt-3 text-lg">
-                <button className="py-1 px-2 bg-green-700 text-white">
+                <button
+                  disabled={isItemInCart(productDetail)}
+                  onClick={() => dispatch(addToCart(productDetail))}
+                  className={`py-1 px-2 text-white transition-all duration-200 ease-linear ${
+                    isItemInCart(productDetail)
+                      ? "bg-green-500"
+                      : "bg-green-700"
+                  }`}
+                >
                   Add To Cart
                 </button>
-                <button className="py-1 px-2 bg-color3 text-white">
+                <button
+                  disabled={isItemInWishlist(productDetail)}
+                  onClick={() => dispatch(addToWishlist(productDetail))}
+                  className={`py-1 px-2 bg-color3 text-white transition-all duration-200 ease-linear ${
+                    isItemInWishlist(productDetail)
+                      ? "bg-opacity-80"
+                      : "bg-opacity-100"
+                  }`}
+                >
                   Add To Wishlist
                 </button>
               </div>

@@ -1,11 +1,22 @@
 import React from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { addToCart } from "../redux/reducerSlice/CartSlice";
 import { addToWishlist } from "../redux/reducerSlice/WishlistSlice";
 
 const ProductItem = ({ product }) => {
   const dispatch = useDispatch();
+  const cartItems = useSelector((state) => state.cart);
+  const wishlistItems = useSelector((state) => state.wishlist);
+
+  const isItemInCart = (item) => {
+    return cartItems?.some((cartItem) => cartItem.id === item.id);
+  };
+
+  const isItemInWishlist = (item) => {
+    return wishlistItems?.some((wishlistItem) => wishlistItem.id === item.id);
+  };
+
   return (
     <div className="flex flex-col group rounded overflow-hidden border bg-white hover:shadow-md">
       <div className="relative w-full h-auto overflow-hidden">
@@ -20,14 +31,20 @@ const ProductItem = ({ product }) => {
           />
         </Link>
         <button
+          disabled={isItemInWishlist(product)}
           onClick={() => dispatch(addToWishlist(product))}
-          className="absolute top-2 right-2 text-white text-xl"
+          className={`absolute top-2 right-2 text-xl transition-all duration-200 ease-linear ${
+            isItemInWishlist(product) ? "text-red-600" : "text-white"
+          }`}
         >
           <i className="fa-solid fa-heart"></i>
         </button>
         <button
+          disabled={isItemInCart(product)}
           onClick={() => dispatch(addToCart(product))}
-          className="absolute py-2 text-center w-full bg-black text-white text-lg left-0 -bottom-12 group-hover:bottom-0 transition-all duration-200 ease-linear"
+          className={`absolute py-2 text-center w-full text-white text-lg left-0 -bottom-12 group-hover:bottom-0 transition-all duration-200 ease-linear ${
+            isItemInCart(product) ? "bg-gray-800" : "bg-black"
+          } `}
         >
           Add to Cart
         </button>

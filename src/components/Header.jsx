@@ -135,15 +135,19 @@ const Header = () => {
           </div>
           <Link to="/cart" className="relative">
             <BsCart3 />
-            <span className="absolute -top-2 -right-2 size-4 bg-red-600 text-xs text-white rounded-full flex items-center justify-center">
-              {cartItems.length}
-            </span>
+            {cartItems.length > 0 && (
+              <span className="absolute -top-2 -right-2 size-4 bg-red-600 text-xs text-white rounded-full flex items-center justify-center">
+                {cartItems.length}
+              </span>
+            )}
           </Link>
           <Link to="/wishlist" className="relative">
             <FaRegHeart />
-            <span className="absolute -top-2 -right-2 size-4 bg-red-600 text-xs text-white rounded-full flex items-center justify-center">
-              {wishlistItems.length}
-            </span>
+            {wishlistItems.length > 0 && (
+              <span className="absolute -top-2 -right-2 size-4 bg-red-600 text-xs text-white rounded-full flex items-center justify-center">
+                {wishlistItems.length}
+              </span>
+            )}
           </Link>
           <button>
             <FaRegUser />
