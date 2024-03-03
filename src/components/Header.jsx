@@ -149,9 +149,9 @@ const Header = () => {
               </span>
             )}
           </Link>
-          <button>
+          <Link to="/login">
             <FaRegUser />
-          </button>
+          </Link>
         </div>
       </div>
     </header>

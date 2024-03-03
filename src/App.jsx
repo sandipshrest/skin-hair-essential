@@ -8,6 +8,7 @@ import ProductDetail from "./pages/products/ProductDetail";
 import Category from "./pages/categories/Category";
 import ScrollToTop from "./components/ScrollToTop";
 import Wishlist from "./pages/wishlist/Wishlist";
+import Login from "./pages/login/Login";
 
 function App() {
   return (
@@ -17,6 +18,7 @@ function App() {
         <Routes>
           <Route exact path="/" element={<Homepage />} />
           <Route exact path="/cart" element={<Cart />} />
+          <Route exact path="/login" element={<Login />} />
           <Route exact path="/wishlist" element={<Wishlist />} />
           <Route exact path="/categories/:category" element={<Category />} />
           <Route exact path="/products/:productName" element={<ProductDetail />} />
