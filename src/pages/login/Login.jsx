@@ -1,7 +1,8 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 
 const Login = () => {
+  const [showPassword, setShowPassword] = useState(false);
   return (
     <>
       <section className="py-20"></section>
@@ -15,11 +16,25 @@ const Login = () => {
                 placeholder="Enter Your Email"
                 className="border border-gray-500 focus:outline-none w-full p-1 rounded-sm"
               />
-              <input
-                type="password"
-                placeholder="Enter Your Password"
-                className="border border-gray-500 focus:outline-none w-full p-1 rounded-sm"
-              />
+              <div className="w-full relative">
+                <input
+                  type={`${showPassword ? "text" : "password"}`}
+                  placeholder="Enter Your Password"
+                  className={`border p-1 placeholder:font-normal border-gray-500 focus:outline-none w-full rounded-sm ${
+                    showPassword
+                      ? ""
+                      : "font-bold"
+                  }`}
+                />
+                <span
+                  onClick={() => setShowPassword(!showPassword)}
+                  className="absolute cursor-pointer right-2 text-xs top-1/2 -translate-y-1/2"
+                >
+                  <i
+                    className={`fa-solid fa-eye${showPassword ? "" : "-slash"}`}
+                  ></i>
+                </span>
+              </div>
               <input
                 type="submit"
                 value="Login"
