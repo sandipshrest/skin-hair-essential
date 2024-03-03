@@ -1,10 +1,17 @@
-import React, { useState } from "react";
-import { useSelector } from "react-redux";
+import React from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
+import { addToCart } from "../../redux/reducerSlice/CartSlice";
+import { removeFromWishlist } from "../../redux/reducerSlice/WishlistSlice";
 
 const Wishlist = () => {
+  const dispatch = useDispatch();
   const wishlistItems = useSelector((state) => state.wishlist);
-  const [quantity, setQuantity] = useState(1);
+  const cartItems = useSelector((state) => state.cart);
+
+  const isItemInCart = (item) => {
+    return cartItems?.some((cartItem) => cartItem.id === item.id);
+  };
 
   return (
     <>
@@ -19,8 +26,8 @@ const Wishlist = () => {
                   <thead className="border-b-2">
                     <tr className="text-lg">
                       <th className="text-start ps-4 py-2">Product</th>
-                      <th className="text-start ps-4 py-2">Quantity</th>
                       <th className="text-start ps-4 py-2">Price</th>
+                      <th className="text-start ps-4 py-2">Cart</th>
                       <th className="text-start ps-4 py-2">Action</th>
                     </tr>
                   </thead>
@@ -37,22 +44,27 @@ const Wishlist = () => {
                             {item.productName}
                           </h3>
                         </td>
-                        <td className="ps-6 py-3">
-                          <div className="flex items-center gap-3">
-                            <button className="text-xl size-7 flex justify-center items-center bg-gray-300">
-                              -
-                            </button>
-                            {quantity}
-                            <button className="text-xl size-7 flex justify-center items-center bg-gray-300">
-                              +
-                            </button>
-                          </div>
-                        </td>
                         <td className="ps-6 py-3 text-lg font-medium">
                           {item.price}
                         </td>
                         <td className="ps-6 py-3">
-                          <button className="py-1 px-2 bg-red-500 text-white rounded">
+                          <button
+                            disabled={isItemInCart(item)}
+                            onClick={() => dispatch(addToCart(item))}
+                            className={`py-1 px-2 text-white ${
+                              isItemInCart(item)
+                                ? "bg-green-500"
+                                : "bg-green-700"
+                            }`}
+                          >
+                            Add To Cart
+                          </button>
+                        </td>
+                        <td className="ps-6 py-3">
+                          <button
+                            onClick={() => dispatch(removeFromWishlist(item))}
+                            className="py-1 px-2 bg-red-500 text-white"
+                          >
                             Remove
                           </button>
                         </td>
@@ -60,14 +72,6 @@ const Wishlist = () => {
                     ))}
                   </tbody>
                 </table>
-                <div className="w-full p-4 flex items-center justify-between">
-                  <div className="text-2xl font-semibold">Total: 100</div>
-                  <div>
-                    <button className="py-1 px-2 bg-color1 text-white rounded">
-                      Proceed to Checkout
-                    </button>
-                  </div>
-                </div>
               </div>
             </div>
           ) : (

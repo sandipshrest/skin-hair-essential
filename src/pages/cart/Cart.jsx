@@ -1,8 +1,10 @@
 import React, { useState } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
+import { removeFromCart } from "../../redux/reducerSlice/CartSlice";
 
 const Cart = () => {
+  const dispatch = useDispatch();
   const cartItems = useSelector((state) => state.cart);
   const [quantity, setQuantity] = useState(1);
 
@@ -52,7 +54,10 @@ const Cart = () => {
                           {cartItem.price}
                         </td>
                         <td className="ps-6 py-3">
-                          <button className="py-1 px-2 bg-red-500 text-white rounded">
+                          <button
+                            onClick={() => dispatch(removeFromCart(cartItem))}
+                            className="py-1 px-2 bg-red-500 text-white rounded"
+                          >
                             Remove
                           </button>
                         </td>
