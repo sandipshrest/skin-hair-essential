@@ -2,8 +2,8 @@ import React, { useState } from "react";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 
-const Cart = () => {
-  const cartItems = useSelector((state) => state.cart);
+const Wishlist = () => {
+  const wishlistItems = useSelector((state) => state.wishlist);
   const [quantity, setQuantity] = useState(1);
 
   return (
@@ -11,9 +11,9 @@ const Cart = () => {
       <section className="py-10 bg-gray-100"></section>
       <section className="py-28 bg-gray-100">
         <div className="container">
-          {cartItems.length > 0 ? (
+          {wishlistItems.length > 0 ? (
             <div className="space-y-8">
-              <h2 className="text-3xl font-semibold">Your Cart</h2>
+              <h2 className="text-3xl font-semibold">Your Wishlist</h2>
               <div className="bg-white">
                 <table className="w-full">
                   <thead className="border-b-2">
@@ -25,16 +25,16 @@ const Cart = () => {
                     </tr>
                   </thead>
                   <tbody>
-                    {cartItems.map((cartItem, cartId) => (
-                      <tr key={cartId} className="border-b">
+                    {wishlistItems.map((item, id) => (
+                      <tr key={id} className="border-b">
                         <td className="flex flex-col ps-4 py-3">
                           <img
-                            src={cartItem.image}
-                            alt={cartItem.productName}
+                            src={item.image}
+                            alt={item.productName}
                             className="w-32 h-32 object-contain"
                           />
                           <h3 className="text-xl font-semibold">
-                            {cartItem.productName}
+                            {item.productName}
                           </h3>
                         </td>
                         <td className="ps-6 py-3">
@@ -49,7 +49,7 @@ const Cart = () => {
                           </div>
                         </td>
                         <td className="ps-6 py-3 text-lg font-medium">
-                          {cartItem.price}
+                          {item.price}
                         </td>
                         <td className="ps-6 py-3">
                           <button className="py-1 px-2 bg-red-500 text-white rounded">
@@ -72,9 +72,9 @@ const Cart = () => {
             </div>
           ) : (
             <div className="py-60 flex flex-col items-center gap-3">
-              <h2 className="text-2xl font-semibold">No Items In Cart</h2>
+              <h2 className="text-2xl font-semibold">No Items In Wishlist</h2>
               <Link to="/" className="bg-green-600 text-white py-1 px-2">
-                Shop Now
+                Add Now
               </Link>
             </div>
           )}
@@ -84,4 +84,4 @@ const Cart = () => {
   );
 };
 
-export default Cart;
+export default Wishlist;

@@ -2,6 +2,7 @@ import React from "react";
 import { useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
 import { addToCart } from "../redux/reducerSlice/CartSlice";
+import { addToWishlist } from "../redux/reducerSlice/WishlistSlice";
 
 const ProductItem = ({ product }) => {
   const dispatch = useDispatch();
@@ -18,7 +19,10 @@ const ProductItem = ({ product }) => {
             className="w-full h-[400px] object-contain bg-color1 bg-opacity-25"
           />
         </Link>
-        <button className="absolute top-2 right-2 text-white text-xl">
+        <button
+          onClick={() => dispatch(addToWishlist(product))}
+          className="absolute top-2 right-2 text-white text-xl"
+        >
           <i className="fa-solid fa-heart"></i>
         </button>
         <button

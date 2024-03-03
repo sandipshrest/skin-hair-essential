@@ -10,6 +10,7 @@ const Header = () => {
   const [scrolled, setScrolled] = useState(false);
   const [productMenu, setProductMenu] = useState(false);
   const cartItems = useSelector((state) => state.cart);
+  const wishlistItems = useSelector((state) => state.wishlist);
 
   const handleScroll = () => {
     const scrollTop = window.scrollY;
@@ -138,9 +139,12 @@ const Header = () => {
               {cartItems.length}
             </span>
           </Link>
-          <button>
+          <Link to="/wishlist" className="relative">
             <FaRegHeart />
-          </button>
+            <span className="absolute -top-2 -right-2 size-4 bg-red-600 text-xs text-white rounded-full flex items-center justify-center">
+              {wishlistItems.length}
+            </span>
+          </Link>
           <button>
             <FaRegUser />
           </button>
