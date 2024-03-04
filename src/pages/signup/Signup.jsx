@@ -52,7 +52,9 @@ const Signup = () => {
                   className="absolute cursor-pointer right-2 text-xs top-1/2 -translate-y-1/2"
                 >
                   <i
-                    className={`fa-solid fa-eye${showConfirmPassword ? "" : "-slash"}`}
+                    className={`fa-solid fa-eye${
+                      showConfirmPassword ? "" : "-slash"
+                    }`}
                   ></i>
                 </span>
               </div>

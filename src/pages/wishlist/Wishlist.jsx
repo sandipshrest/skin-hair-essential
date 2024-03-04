@@ -23,7 +23,7 @@ const Wishlist = () => {
               <h2 className="text-3xl font-semibold">Your Wishlist</h2>
               <div className="bg-white">
                 <table className="w-full">
-                  <thead className="border-b-2">
+                  <thead className="border-b-2 sticky bg-white shadow top-0">
                     <tr className="text-lg">
                       <th className="text-start ps-4 py-2">Product</th>
                       <th className="text-start ps-4 py-2">Price</th>
