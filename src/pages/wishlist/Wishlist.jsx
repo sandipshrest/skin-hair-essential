@@ -15,8 +15,19 @@ const Wishlist = () => {
 
   return (
     <>
-      <section className="py-10 bg-gray-100"></section>
-      <section className="py-28 bg-gray-100">
+      <section className="pt-32 pb-6 bg-green-700 bg-opacity-15">
+        <div className="container">
+          <ul className="flex items-center text-lg gap-2 font-medium">
+            <li>
+              <Link to="/" className="text-color3">
+                Home
+              </Link>
+            </li>
+            /<li>Wishlist</li>
+          </ul>
+        </div>
+      </section>
+      <section className="py-24 bg-gray-100">
         <div className="container">
           {wishlistItems.length > 0 ? (
             <div className="space-y-8">

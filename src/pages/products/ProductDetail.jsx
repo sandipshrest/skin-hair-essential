@@ -1,5 +1,5 @@
 import React from "react";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import ProductData from "../../data/ProductData";
 import ProductItem from "../../components/ProductItem";
 import { useDispatch, useSelector } from "react-redux";
@@ -32,7 +32,20 @@ const ProductDetail = () => {
 
   return (
     <>
-      <section className="py-20"></section>
+      <section className="pt-32 pb-6 bg-green-700 bg-opacity-15">
+        <div className="container">
+          <ul className="flex items-center text-lg gap-2 font-medium">
+            <li>
+              <Link to="/" className="text-color3"> Home </Link>
+            </li>
+            /
+            <li>
+              <Link to={`/categories/${productDetail.category}`} className="text-color3">{productDetail.category} </Link>
+            </li>
+            /<li>{productName}</li>
+          </ul>
+        </div>
+      </section>
       <section className="py-24 bg-gray-100">
         {productDetail && (
           <div className="container flex gap-14">
@@ -41,20 +54,23 @@ const ProductDetail = () => {
                 <ReactImageMagnify
                   imageProps={{
                     alt: productName,
-                    height: 350,
+                    height: 450,
                     src: productDetail.image,
+                    className:
+                      "h-[450px] object-contain bg-color3 bg-opacity-20",
                   }}
                   magnifiedImageProps={{
                     height: 800,
                     src: productDetail.image,
                     width: 800,
+                    className: "object-contain bg-white",
                   }}
                   magnifyContainerProps={{
                     width: 450,
                     height: 450,
                     style: {
                       position: "absolute",
-                      top: "-200px",
+                      top: "-230px",
                     },
                   }}
                   onActivationChanged={function noRefCheck() {}}

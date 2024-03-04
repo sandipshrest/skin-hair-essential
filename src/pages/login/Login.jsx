@@ -5,7 +5,18 @@ const Login = () => {
   const [showPassword, setShowPassword] = useState(false);
   return (
     <>
-      <section className="py-20"></section>
+      <section className="pt-32 pb-6 bg-green-700 bg-opacity-15">
+        <div className="container">
+          <ul className="flex items-center text-lg gap-2 font-medium">
+            <li>
+              <Link to="/" className="text-color3">
+                Home
+              </Link>
+            </li>
+            /<li>Login</li>
+          </ul>
+        </div>
+      </section>
       <section className="py-24 bg-gray-100">
         <div className="container flex items-center justify-center">
           <div className="flex w-[30%] flex-col gap-8 bg-white p-8 shadow-md">
@@ -21,9 +32,7 @@ const Login = () => {
                   type={`${showPassword ? "text" : "password"}`}
                   placeholder="Enter Your Password"
                   className={`border p-1 placeholder:font-normal border-gray-500 focus:outline-none w-full rounded-sm ${
-                    showPassword
-                      ? ""
-                      : "font-bold"
+                    showPassword ? "" : "font-bold"
                   }`}
                 />
                 <span

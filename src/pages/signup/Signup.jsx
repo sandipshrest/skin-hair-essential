@@ -6,7 +6,18 @@ const Signup = () => {
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   return (
     <>
-      <section className="py-20"></section>
+      <section className="pt-32 pb-6 bg-green-700 bg-opacity-15">
+        <div className="container">
+          <ul className="flex items-center text-lg gap-2 font-medium">
+            <li>
+              <Link to="/" className="text-color3">
+                Home
+              </Link>
+            </li>
+            /<li>SignUp</li>
+          </ul>
+        </div>
+      </section>
       <section className="py-24 bg-gray-100">
         <div className="container flex justify-center items-center">
           <div className="w-[30%] bg-white space-y-6 shadow-md p-6">
