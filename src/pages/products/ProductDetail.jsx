@@ -5,6 +5,7 @@ import ProductItem from "../../components/ProductItem";
 import { useDispatch, useSelector } from "react-redux";
 import { addToWishlist } from "../../redux/reducerSlice/WishlistSlice";
 import { addToCart } from "../../redux/reducerSlice/CartSlice";
+import ReactImageMagnify from "@blacklab/react-image-magnify";
 
 const ProductDetail = () => {
   const { productName } = useParams();
@@ -37,11 +38,33 @@ const ProductDetail = () => {
           <div className="container flex gap-14">
             <div className="w-1/3 px-6">
               <div className="w-full sticky top-28">
-              <img
-                src={productDetail.image}
-                alt={productName}
-                className="w-full h-[450px] object-contain bg-color2 bg-opacity-20"
-              />
+                <ReactImageMagnify
+                  imageProps={{
+                    alt: productName,
+                    height: 350,
+                    src: productDetail.image,
+                  }}
+                  magnifiedImageProps={{
+                    height: 800,
+                    src: productDetail.image,
+                    width: 800,
+                  }}
+                  magnifyContainerProps={{
+                    width: 450,
+                    height: 450,
+                    style: {
+                      position: "absolute",
+                      top: "-200px",
+                    },
+                  }}
+                  onActivationChanged={function noRefCheck() {}}
+                  onDetectedEnvironmentChanged={function noRefCheck() {}}
+                  onPositionChanged={function noRefCheck() {}}
+                  portalProps={{
+                    horizontalOffset: 10,
+                    id: "portal-test-id",
+                  }}
+                />
               </div>
             </div>
             <div className="w-2/3 flex flex-col gap-12">
@@ -91,10 +114,14 @@ const ProductDetail = () => {
                     name=""
                     id=""
                     rows="6"
-                    placeholder="Write something ..."
+                    placeholder="Write something..."
                     className="border border-gray-500 p-1 rounded focus:outline-none w-full"
                   ></textarea>
-                  <input type="submit" value="Submit" className="py-1 px-2 bg-green-700 font-medium border border-green-700 text-white" />
+                  <input
+                    type="submit"
+                    value="Submit"
+                    className="py-1 px-2 bg-green-700 font-medium border border-green-700 text-white"
+                  />
                 </form>
               </div>
             </div>
