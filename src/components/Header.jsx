@@ -51,7 +51,7 @@ const Header = () => {
       >
         <div className="flex items-center gap-32">
           <Link to="/">
-            <img src="/images/logo.png" alt="logo" className="size-16" />
+            <img src="/images/logo.png" alt="logo" className="size-20" />
           </Link>
           <nav>
             <ul className="flex items-center gap-6 text-lg font-medium">
@@ -62,15 +62,15 @@ const Header = () => {
                 <Link to="#">About</Link>
               </li>
               <li
-                className={`py-8 h-auto`}
+                className={`py-10 h-auto`}
                 onMouseLeave={() => setProductMenu(false)}
               >
                 <button onMouseEnter={() => setProductMenu(true)}>Shop</button>
                 <div
                   className={`bg-white w-full absolute left-0 border border-gray-300 px-8 py-6 transition-all duration-300 ease-linear ${
                     productMenu
-                      ? "top-[92px] opacity-100"
-                      : "top-[100px] opacity-0"
+                      ? "top-[108px] opacity-100"
+                      : "top-[120px] opacity-0"
                   }`}
                 >
                   <div className="w-full grid grid-cols-5 gap-8">
@@ -117,7 +117,7 @@ const Header = () => {
                 <Link to="#">Blog</Link>
               </li>
               <li>
-                <Link to="#">Contact</Link>
+                <Link to="/contact">Contact</Link>
               </li>
             </ul>
           </nav>

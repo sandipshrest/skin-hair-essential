@@ -10,6 +10,7 @@ import ScrollToTop from "./components/ScrollToTop";
 import Wishlist from "./pages/wishlist/Wishlist";
 import Login from "./pages/login/Login";
 import Signup from "./pages/signup/Signup";
+import Contact from "./pages/contact/Contact";
 
 function App() {
   return (
@@ -24,6 +25,7 @@ function App() {
           <Route exact path="/wishlist" element={<Wishlist />} />
           <Route exact path="/categories/:category" element={<Category />} />
           <Route exact path="/products/:productName" element={<ProductDetail />} />
+          <Route exact path="/contact" element={<Contact />} />
         </Routes>
         <Footer />
         <ScrollToTop />
