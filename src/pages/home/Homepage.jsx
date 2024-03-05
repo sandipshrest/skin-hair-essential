@@ -4,12 +4,14 @@ import Feature from "./Feature";
 import FeatureProduct from "./FeatureProduct";
 import Testimonial from "./Testimonial";
 import Products from "./Products";
+import Ad from "./Ad";
 
 const Homepage = () => {
   return (
     <>
       <Banner />
       <FeatureProduct />
+      <Ad />
       <Products />
       <Testimonial />
       <Feature />
