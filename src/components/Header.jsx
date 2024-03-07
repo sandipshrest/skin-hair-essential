@@ -59,7 +59,7 @@ const Header = () => {
                 <Link to="/">Home</Link>
               </li>
               <li>
-                <Link to="#">About</Link>
+                <Link to="/about">About</Link>
               </li>
               <li
                 className={`py-10 h-auto`}

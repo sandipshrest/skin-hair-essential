@@ -11,6 +11,7 @@ import Wishlist from "./pages/wishlist/Wishlist";
 import Login from "./pages/login/Login";
 import Signup from "./pages/signup/Signup";
 import Contact from "./pages/contact/Contact";
+import About from "./pages/about/About";
 
 function App() {
   return (
@@ -19,6 +20,7 @@ function App() {
         <Header />
         <Routes>
           <Route exact path="/" element={<Homepage />} />
+          <Route exact path="/about" element={<About />} />
           <Route exact path="/cart" element={<Cart />} />
           <Route exact path="/login" element={<Login />} />
           <Route exact path="/signup" element={<Signup />} />
