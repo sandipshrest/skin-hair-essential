@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import {
   removeFromCart,
   updateCartItemQuantity,
-} from "../../redux/reducerSlice/CartSlice";
+} from "../../../redux/reducerSlice/CartSlice";
 
 const Cart = () => {
   const dispatch = useDispatch();

@@ -5,7 +5,7 @@ import "swiper/css";
 import "swiper/css/autoplay";
 import "swiper/css/navigation";
 import "swiper/css/scrollbar";
-import TestimonialData from "../../data/TestimonialData";
+import TestimonialData from "../../../data/TestimonialData";
 
 const Testimonial = () => {
   return (

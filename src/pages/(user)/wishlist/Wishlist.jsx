@@ -1,8 +1,8 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-import { addToCart } from "../../redux/reducerSlice/CartSlice";
-import { removeFromWishlist } from "../../redux/reducerSlice/WishlistSlice";
+import { addToCart } from "../../../redux/reducerSlice/CartSlice";
+import { removeFromWishlist } from "../../../redux/reducerSlice/WishlistSlice";
 
 const Wishlist = () => {
   const dispatch = useDispatch();

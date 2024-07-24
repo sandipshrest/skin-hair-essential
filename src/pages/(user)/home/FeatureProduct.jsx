@@ -1,6 +1,6 @@
 import React from "react";
-import ProductData from "../../data/ProductData";
-import ProductItem from "../../components/ProductItem";
+import ProductData from "../../../data/ProductData";
+import ProductItem from "../../../components/ProductItem";
 
 const FeatureProduct = () => {
   const featuredProduct = ProductData.filter(

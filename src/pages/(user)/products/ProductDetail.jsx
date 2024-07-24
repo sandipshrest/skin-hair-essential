@@ -1,10 +1,10 @@
 import React from "react";
 import { Link, useParams } from "react-router-dom";
-import ProductData from "../../data/ProductData";
-import ProductItem from "../../components/ProductItem";
+import ProductData from "../../../data/ProductData";
+import ProductItem from "../../../components/ProductItem";
 import { useDispatch, useSelector } from "react-redux";
-import { addToWishlist } from "../../redux/reducerSlice/WishlistSlice";
-import { addToCart } from "../../redux/reducerSlice/CartSlice";
+import { addToWishlist } from "../../../redux/reducerSlice/WishlistSlice";
+import { addToCart } from "../../../redux/reducerSlice/CartSlice";
 import ReactImageMagnify from "@blacklab/react-image-magnify";
 
 const ProductDetail = () => {
