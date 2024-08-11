@@ -1,7 +1,5 @@
 import "./App.css";
 import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
-import Header from "./components/Header";
-import Footer from "./components/Footer";
 import Cart from "./pages/(user)/cart/Cart";
 import ProductDetail from "./pages/(user)/products/ProductDetail";
 import Category from "./pages/(user)/categories/Category";
@@ -15,6 +13,7 @@ import Homepage from "./pages/(user)/home/Homepage";
 import MainLayout from "./layouts/MainLayout";
 import AdminLayout from "./layouts/AdminLayout";
 import Dashboard from "./pages/(admin)/dashboard/Dashboard";
+import ProductList from "./pages/(admin)/productList/ProductList";
 
 function App() {
   return (
@@ -30,13 +29,18 @@ function App() {
             <Route exact path="/signup" element={<Signup />} />
             <Route exact path="/wishlist" element={<Wishlist />} />
             <Route exact path="/categories/:category" element={<Category />} />
-            <Route exact path="/products/:productName" element={<ProductDetail />} />
+            <Route
+              exact
+              path="/products/:productName"
+              element={<ProductDetail />}
+            />
             <Route exact path="/contact" element={<Contact />} />
           </Route>
 
           {/* for admin or authorized person only */}
-          <Route path="/dashboard" element={<AdminLayout/>}>
-          <Route exact index element={<Dashboard />} />
+          <Route path="/dashboard" element={<AdminLayout />}>
+            <Route exact index element={<Dashboard />} />
+            <Route exact path="/dashboard/productList" element={<ProductList />} />
           </Route>
         </Routes>
         <ScrollToTop />
