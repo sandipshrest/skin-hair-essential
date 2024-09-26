@@ -14,6 +14,7 @@ import MainLayout from "./layouts/MainLayout";
 import AdminLayout from "./layouts/AdminLayout";
 import Dashboard from "./pages/(admin)/dashboard/Dashboard";
 import ProductList from "./pages/(admin)/productList/ProductList";
+import CategoryList from "./pages/(admin)/categoryList/CategoryList";
 
 function App() {
   return (
@@ -41,6 +42,7 @@ function App() {
           <Route path="/dashboard" element={<AdminLayout />}>
             <Route exact index element={<Dashboard />} />
             <Route exact path="/dashboard/productList" element={<ProductList />} />
+            <Route exact path="/dashboard/categoryList" element={<CategoryList />} />
           </Route>
         </Routes>
         <ScrollToTop />
