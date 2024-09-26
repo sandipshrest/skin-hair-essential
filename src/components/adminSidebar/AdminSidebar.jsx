@@ -54,7 +54,7 @@ const AdminSidebar = ({ open }) => {
                   </Link>
                 </li>
                 <li className="w-full">
-                  <Link className="w-full inline-block" to="">
+                  <Link className="w-full inline-block" to="/dashboard/product">
                     Product
                   </Link>
                 </li>

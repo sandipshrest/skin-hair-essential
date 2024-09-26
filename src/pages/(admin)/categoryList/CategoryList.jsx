@@ -11,7 +11,7 @@ const CategoryList = () => {
     <div className="p-6">
       <Modal>
         <ModalTrigger className="bg-black dark:bg-white dark:text-black text-white flex justify-center">
-          <span className="text-center">Book your flight</span>
+          <span className="text-center">Add Category</span>
         </ModalTrigger>
         <ModalBody>
           <ModalContent>

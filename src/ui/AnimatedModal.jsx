@@ -10,6 +10,7 @@ import React, {
 
 const ModalContext = createContext(undefined);
 
+// provider for modal
 export const ModalProvider = ({ children }) => {
   const [open, setOpen] = useState(false);
 
@@ -20,6 +21,7 @@ export const ModalProvider = ({ children }) => {
   );
 };
 
+// custom usemodal hook
 export const useModal = () => {
   const context = useContext(ModalContext);
   if (!context) {
@@ -32,6 +34,7 @@ export function Modal({ children }) {
   return <ModalProvider>{children}</ModalProvider>;
 }
 
+// modal button
 export const ModalTrigger = ({ children, className }) => {
   const { setOpen } = useModal();
   return (
@@ -47,6 +50,7 @@ export const ModalTrigger = ({ children, className }) => {
   );
 };
 
+// modal body
 export const ModalBody = ({ children, className }) => {
   const { open } = useModal();
 
@@ -119,6 +123,7 @@ export const ModalBody = ({ children, className }) => {
   );
 };
 
+// content inside modal body
 export const ModalContent = ({ children, className }) => {
   return (
     <div className={cn("flex flex-col flex-1 p-8 md:p-10", className)}>
@@ -127,6 +132,7 @@ export const ModalContent = ({ children, className }) => {
   );
 };
 
+// footer content
 export const ModalFooter = ({ children, className }) => {
   return (
     <div
