@@ -21,7 +21,12 @@ export default function AdminLayout() {
       </Sidebar>
       <div className="flex flex-col w-full">
         <AdminHeader />
-        <Outlet />
+        <div
+          className="overflow-y-auto py-8 px-10 bg-gray-50"
+          style={{ scrollbarWidth: "none" }}
+        >
+          <Outlet />
+        </div>
       </div>
     </div>
   );

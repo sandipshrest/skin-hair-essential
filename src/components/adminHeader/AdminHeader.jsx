@@ -4,7 +4,7 @@ import { FaBars } from "react-icons/fa";
 
 const AdminHeader = () => {
   return (
-    <header className="py-4 bg-gray-100 w-full">
+    <header className="py-4 bg-gray-200 w-full">
       <div className="container flex w-full items-center justify-between">
         <Link to="/">
           <img src="/images/logo.png" alt="logo" className="size-16" />

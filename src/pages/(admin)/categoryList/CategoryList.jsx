@@ -8,7 +8,7 @@ import {
 
 const CategoryList = () => {
   return (
-    <div className="p-6">
+    <div >
       <Modal>
         <ModalTrigger className="bg-black dark:bg-white dark:text-black text-white flex justify-center">
           <span className="text-center">Add Category</span>
