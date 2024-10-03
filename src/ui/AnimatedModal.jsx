@@ -10,17 +10,6 @@ import React, {
 
 const ModalContext = createContext(undefined);
 
-// provider for modal
-export const ModalProvider = ({ children }) => {
-  const [open, setOpen] = useState(false);
-
-  return (
-    <ModalContext.Provider value={{ open, setOpen }}>
-      {children}
-    </ModalContext.Provider>
-  );
-};
-
 // custom usemodal hook
 export const useModal = () => {
   const context = useContext(ModalContext);
@@ -30,8 +19,30 @@ export const useModal = () => {
   return context;
 };
 
-export function Modal({ children }) {
-  return <ModalProvider>{children}</ModalProvider>;
+// provider for modal
+export const ModalProvider = ({
+  children,
+  open: openProp,
+  setOpen: setOpenProp,
+}) => {
+  const [openState, setOpenState] = useState(false);
+
+  const open = openProp !== undefined ? openProp : openState;
+  const setOpen = setOpenProp !== undefined ? setOpenProp : setOpenState;
+
+  return (
+    <ModalContext.Provider value={{ open, setOpen }}>
+      {children}
+    </ModalContext.Provider>
+  );
+};
+
+export function Modal({ children, open, setOpen }) {
+  return (
+    <ModalProvider open={open} setOpen={setOpen}>
+      {children}
+    </ModalProvider>
+  );
 }
 
 // modal button
@@ -88,7 +99,7 @@ export const ModalBody = ({ children, className }) => {
           <motion.div
             ref={modalRef}
             className={cn(
-              "min-h-[50%] max-h-[90%] md:max-w-[40%] bg-white dark:bg-neutral-950 border border-transparent dark:border-neutral-800 md:rounded-2xl relative z-50 flex flex-col flex-1 overflow-hidden",
+              "md:max-w-[30%] bg-white dark:bg-neutral-950 border border-transparent dark:border-neutral-800 md:rounded-2xl relative z-50 flex flex-col flex-1 overflow-hidden",
               className
             )}
             initial={{
