@@ -4,13 +4,16 @@ import { LuSearch } from "react-icons/lu";
 import { FaRegHeart, FaRegUser } from "react-icons/fa";
 import { BsCart3 } from "react-icons/bs";
 import ProductData from "../data/ProductData";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { logoutUser } from "../redux/reducerSlice/UserSlice";
 
 const Header = () => {
   const [scrolled, setScrolled] = useState(false);
   const [productMenu, setProductMenu] = useState(false);
   const cartItems = useSelector((state) => state.cart);
   const wishlistItems = useSelector((state) => state.wishlist);
+  const { isLogin } = useSelector((state) => state.user);
+  const dispatch = useDispatch();
 
   const handleScroll = () => {
     const scrollTop = window.scrollY;
@@ -149,9 +152,13 @@ const Header = () => {
               </span>
             )}
           </Link>
-          <Link to="/login">
-            <FaRegUser />
-          </Link>
+          {!isLogin ? (
+            <Link to="/login">
+              <FaRegUser />
+            </Link>
+          ) : (
+            <button onClick={() => dispatch(logoutUser())}>Logout</button>
+          )}
         </div>
       </div>
     </header>

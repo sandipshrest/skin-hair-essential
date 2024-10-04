@@ -5,6 +5,8 @@ import * as Yup from "yup";
 import api from "../../../api/axios";
 import toast from "react-hot-toast";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
+import { useDispatch } from "react-redux";
+import { loginUser } from "../../../redux/reducerSlice/UserSlice";
 
 const LoginSchema = Yup.object().shape({
   email: Yup.string().email("Invalid email").required("Required"),
@@ -12,6 +14,7 @@ const LoginSchema = Yup.object().shape({
 });
 
 const Login = () => {
+  const dispatch = useDispatch();
   const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
 
@@ -23,6 +26,11 @@ const Login = () => {
         response.data.userDetail?.role?.toLowerCase() === "user"
           ? navigate("/")
           : navigate("/dashboard");
+        dispatch(
+          loginUser({
+            token: response.data.accessTokenKey,
+          })
+        );
       } else {
         toast.error(response.data.msg);
       }
