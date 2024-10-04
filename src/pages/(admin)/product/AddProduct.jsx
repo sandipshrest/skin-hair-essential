@@ -1,9 +1,10 @@
-import React, { useCallback, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { Editor } from "@tinymce/tinymce-react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import { Select, Switch } from "antd";
 import { useDropzone } from "react-dropzone";
+import api from "../../../api/axios";
 
 const ProductSchema = Yup.object().shape({
   productName: Yup.string().required("Required"),
@@ -16,6 +17,9 @@ const ProductSchema = Yup.object().shape({
 
 const AddProduct = () => {
   const [selectedImages, setSelectedImages] = useState([]);
+  const [categoryList, setCategoryList] = useState([]);
+
+  // handle image drop
   const onDrop = useCallback((acceptedFiles) => {
     if (Array.isArray(acceptedFiles)) {
       acceptedFiles?.forEach((file) => {
@@ -31,6 +35,29 @@ const AddProduct = () => {
   }, []);
 
   const { getRootProps, getInputProps, isDragActive } = useDropzone({ onDrop });
+
+  // fetch all category
+  const fetchCategory = async () => {
+    try {
+      const response = await api.get("/category");
+      if (response.status === 200) {
+        setCategoryList(response.data.allCategory);
+      } else {
+        toast.error(response.data.msg);
+      }
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  useEffect(() => {
+    fetchCategory();
+  }, []);
+
+  const options = categoryList?.map((category) => ({
+    value: category._id,
+    label: category.category,
+  }));
 
   return (
     <div className="py-6 px-8 shadow-md bg-white rounded-lg">
@@ -74,11 +101,7 @@ const AddProduct = () => {
                     setFieldValue("category", value);
                   }}
                   placeholder="Select Category"
-                  options={[
-                    { value: "jack", label: "Jack" },
-                    { value: "lucy", label: "Lucy" },
-                    { value: "Yiminghe", label: "yiminghe" },
-                  ]}
+                  options={options}
                 />
                 <ErrorMessage
                   className="text-red-600"

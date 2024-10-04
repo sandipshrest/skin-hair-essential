@@ -140,45 +140,57 @@ const CategoryList = () => {
             </tr>
           </thead>
           <tbody>
-            {categoryList?.map((category, id) => (
-              <tr key={id}>
-                <td className="text-center border border-gray-500">{id + 1}</td>
-                <td className="text-center border border-gray-500">
-                  {category.category}
-                </td>
-                <td className="text-center border border-gray-500">
-                  {moment(category.createdAt).format("LL")}
-                </td>
-                <td className="text-center border border-gray-500">
-                  <div className="relative inline-block">
-                    <MdDelete
-                      onClick={() => setOpenPopup(openPopup !== id ? id : null)}
-                      className="text-red-700 cursor-pointer"
-                      size={20}
-                    />
-                    {openPopup === id && (
-                      <div className="absolute min-w-[250px] max-w-[300px] bottom-5 border border-gray-400 rounded-md right-0 py-1.5 px-2 bg-gray-50">
-                        Do you want to delete {category.category}?
-                        <div className="space-x-3 mt-1">
-                          <button
-                            onClick={() => handleDeleteCategory(category._id)}
-                            className="bg-red-600 text-white px-2 text-sm"
-                          >
-                            Yes
-                          </button>
-                          <button
-                            onClick={() => setOpenPopup(null)}
-                            className="bg-color1 text-white px-2 text-sm"
-                          >
-                            No
-                          </button>
+            {categoryList?.length > 0 ? (
+              categoryList?.map((category, id) => (
+                <tr key={id}>
+                  <td className="text-center border border-gray-500">
+                    {id + 1}
+                  </td>
+                  <td className="text-center border border-gray-500">
+                    {category.category}
+                  </td>
+                  <td className="text-center border border-gray-500">
+                    {moment(category.createdAt).format("LL")}
+                  </td>
+                  <td className="text-center border border-gray-500">
+                    <div className="relative inline-block">
+                      <MdDelete
+                        onClick={() =>
+                          setOpenPopup(openPopup !== id ? id : null)
+                        }
+                        className="text-red-700 cursor-pointer"
+                        size={20}
+                      />
+                      {openPopup === id && (
+                        <div className="absolute min-w-[250px] max-w-[300px] bottom-5 border border-gray-400 rounded-md right-0 py-1.5 px-2 bg-gray-50">
+                          Do you want to delete {category.category}?
+                          <div className="space-x-3 mt-1">
+                            <button
+                              onClick={() => handleDeleteCategory(category._id)}
+                              className="bg-red-600 text-white px-2 text-sm"
+                            >
+                              Yes
+                            </button>
+                            <button
+                              onClick={() => setOpenPopup(null)}
+                              className="bg-color1 text-white px-2 text-sm"
+                            >
+                              No
+                            </button>
+                          </div>
                         </div>
-                      </div>
-                    )}
-                  </div>
+                      )}
+                    </div>
+                  </td>
+                </tr>
+              ))
+            ) : (
+              <tr className="border border-gray-500">
+                <td colSpan="4" className="text-center py-1 font-medium">
+                  No category found
                 </td>
               </tr>
-            ))}
+            )}
           </tbody>
         </table>
       </div>

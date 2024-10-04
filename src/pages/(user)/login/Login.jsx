@@ -4,6 +4,7 @@ import { Formik, Form, Field } from "formik";
 import * as Yup from "yup";
 import api from "../../../api/axios";
 import toast from "react-hot-toast";
+import { FaEye, FaEyeSlash } from "react-icons/fa";
 
 const LoginSchema = Yup.object().shape({
   email: Yup.string().email("Invalid email").required("Required"),
@@ -19,7 +20,9 @@ const Login = () => {
       const response = await api.post("/user/login", values);
       if (response.status === 200) {
         toast.success(response.data.msg);
-        navigate("/");
+        response.data.userDetail?.role?.toLowerCase() === "user"
+          ? navigate("/")
+          : navigate("/dashboard");
       } else {
         toast.error(response.data.msg);
       }
@@ -85,11 +88,11 @@ const Login = () => {
                       onClick={() => setShowPassword(!showPassword)}
                       className="absolute cursor-pointer right-2 text-xs top-1/2 -translate-y-1/2"
                     >
-                      <i
-                        className={`fa-solid fa-eye${
-                          showPassword ? "" : "-slash"
-                        }`}
-                      ></i>
+                      {showPassword ? (
+                        <FaEye size={16} />
+                      ) : (
+                        <FaEyeSlash size={16} />
+                      )}
                     </span>
                     {errors.password && touched.password ? (
                       <div className="absolute text-sm text-red-700 font-medium">
