@@ -5,6 +5,8 @@ import * as Yup from "yup";
 import { Select, Switch } from "antd";
 import { useDropzone } from "react-dropzone";
 import api from "../../../api/axios";
+import toast from "react-hot-toast";
+import { FaXmark } from "react-icons/fa6";
 
 const ProductSchema = Yup.object().shape({
   productName: Yup.string().required("Required"),
@@ -17,11 +19,16 @@ const ProductSchema = Yup.object().shape({
 
 const AddProduct = () => {
   const [selectedImages, setSelectedImages] = useState([]);
+  const [selectedImageToUpload, setSelectedImageToUpload] = useState([]);
   const [categoryList, setCategoryList] = useState([]);
+  const [imageUploaded, setImageUploaded] = useState(false);
 
   // handle image drop
   const onDrop = useCallback((acceptedFiles) => {
+    console.log(acceptedFiles);
     if (Array.isArray(acceptedFiles)) {
+      setSelectedImages([]);
+      setSelectedImageToUpload(acceptedFiles);
       acceptedFiles?.forEach((file) => {
         const reader = new FileReader();
         reader.onload = (e) => {
@@ -30,6 +37,7 @@ const AddProduct = () => {
           });
         };
         reader.readAsDataURL(file);
+        setImageUploaded(true);
       });
     }
   }, []);
@@ -58,6 +66,23 @@ const AddProduct = () => {
     value: category._id,
     label: category.category,
   }));
+
+  // function to clear all images
+  const handleClearImage = (e) => {
+    e.stopPropagation();
+    setSelectedImages([]);
+    setSelectedImageToUpload([]);
+    setImageUploaded(false);
+  };
+
+  // function to delete clicked image
+  const handleDeleteImage = (imageId) => {
+    setSelectedImages(selectedImages?.filter((image, id) => id !== imageId));
+    setSelectedImageToUpload(
+      selectedImageToUpload?.filter((image, id) => id !== imageId)
+    );
+    selectedImages?.length === 1 && setImageUploaded(false);
+  };
 
   return (
     <div className="py-6 px-8 shadow-md bg-white rounded-lg">
@@ -235,11 +260,41 @@ const AddProduct = () => {
                   </div>
                 </div>
               </div>
-              <div className="w-1/2">
-                {selectedImages?.map((image, id) => (
-                  <img key={id} src={image} alt="image" />
-                ))}
-              </div>
+              {imageUploaded && (
+                <div className="w-1/2 flex flex-col items-end gap-2">
+                  <button
+                    type="button"
+                    onClick={handleClearImage}
+                    className="bg-red-700 text-white py-1 px-2"
+                  >
+                    Clear All
+                  </button>
+                  <div
+                    className="w-full grid lg:grid-cols-3 gap-3 max-h-[350px] overflow-y-auto"
+                    style={{ scrollbarWidth: "thin" }}
+                  >
+                    {selectedImages?.map((image, id) => (
+                      <div key={id} className="w-full h-auto relative">
+                        <img
+                          src={image}
+                          className="h-[200px] w-full object-cover"
+                          alt="image"
+                        />
+                        <button
+                          type="button"
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            handleDeleteImage(id);
+                          }}
+                          className="absolute top-0 right-0 size-5 flex justify-center items-center bg-white rounded-full text-red-700"
+                        >
+                          <FaXmark size={16} />
+                        </button>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
             </div>
             <button
               type="submit"
