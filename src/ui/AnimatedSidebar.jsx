@@ -117,3 +117,52 @@ export const MobileSidebar = ({ className, children, ...props }) => {
     </>
   );
 };
+
+// for right sidebar
+export const ProfileSidebar = ({ className, children, open, setOpen }) => {
+  return (
+    <AnimatePresence>
+      {open && (
+        <>
+          <motion.div
+            initial={{ x: "100%", opacity: 0 }}
+            animate={{ x: 0, opacity: 1 }}
+            exit={{ x: "100%", opacity: 0 }}
+            transition={{
+              duration: 0.3,
+              ease: "easeInOut",
+            }}
+            className={cn(
+              "fixed h-full w-[300px] top-0 right-0 bg-gray-50 border border-gray-300 py-6 px-2 z-[100] flex flex-col justify-between shadow-lg items-end gap-6",
+              className
+            )}
+          >
+            <button
+              className="text-neutral-800 me-6"
+              onClick={() => setOpen(false)}
+            >
+              <FaXmark size={20} />
+            </button>
+            {children}
+          </motion.div>
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{
+              duration: 0.3,
+              ease: "easeInOut",
+            }}
+            onClick={() => setOpen(false)}
+            className={cn(
+              "fixed w-full h-full inset-0 bg-black bg-opacity-30 z-[55]",
+              className
+            )}
+          ></motion.div>
+        </>
+      )}
+    </AnimatePresence>
+  );
+};
+
+export default ProfileSidebar;

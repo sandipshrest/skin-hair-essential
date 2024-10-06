@@ -25,7 +25,6 @@ const AddProduct = () => {
 
   // handle image drop
   const onDrop = useCallback((acceptedFiles) => {
-    console.log(acceptedFiles);
     if (Array.isArray(acceptedFiles)) {
       setSelectedImages([]);
       setSelectedImageToUpload(acceptedFiles);
