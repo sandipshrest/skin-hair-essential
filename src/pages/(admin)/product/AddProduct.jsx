@@ -7,6 +7,7 @@ import { useDropzone } from "react-dropzone";
 import api from "../../../api/axios";
 import toast from "react-hot-toast";
 import { FaXmark } from "react-icons/fa6";
+import { useNavigate } from "react-router-dom";
 
 const ProductSchema = Yup.object().shape({
   productName: Yup.string().required("Required"),
@@ -18,10 +19,13 @@ const ProductSchema = Yup.object().shape({
 });
 
 const AddProduct = () => {
+  const navigate = useNavigate();
+
   const [selectedImages, setSelectedImages] = useState([]);
   const [selectedImageToUpload, setSelectedImageToUpload] = useState([]);
   const [categoryList, setCategoryList] = useState([]);
   const [imageUploaded, setImageUploaded] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
 
   // handle image drop
   const onDrop = useCallback((acceptedFiles) => {
@@ -83,6 +87,37 @@ const AddProduct = () => {
     selectedImages?.length === 1 && setImageUploaded(false);
   };
 
+  // function to add product
+  const handleAddProduct = async (values) => {
+    try {
+      if (selectedImageToUpload?.length === 0) {
+        return setErrorMessage("Please upload images!");
+      }
+      const formData = new FormData();
+      const config = {
+        headers: {
+          "content-type": "multipart/form-data",
+        },
+      };
+      for (let item in values) {
+        formData.append(item, values[item]);
+      }
+      for (let file of selectedImageToUpload) {
+        formData.append("productImages", file);
+      }
+
+      const response = await api.post("/product", formData, config);
+      if (response.status === 200) {
+        toast.success(response.data.msg);
+        navigate("/dashboard/productList");
+      } else {
+        toast.error(response.data.msg);
+      }
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
   return (
     <div className="py-6 px-8 shadow-md bg-white rounded-lg">
       <h2 className="text-2xl font-bold mb-6 text-color3">Add Product</h2>
@@ -90,15 +125,14 @@ const AddProduct = () => {
         initialValues={{
           productName: "",
           description: "",
-          images: [],
           isFeatured: false,
           category: "",
           importedCompany: "",
           price: "",
-          discount: "",
+          discount: 0,
         }}
         validationSchema={ProductSchema}
-        onSubmit={(values) => console.log(values)}
+        onSubmit={(values) => handleAddProduct(values)}
       >
         {({ setFieldValue, values }) => (
           <Form className="px-3 py-5 flex flex-col gap-8 items-center">
@@ -188,7 +222,7 @@ const AddProduct = () => {
             </div>
             <div className="flex flex-col items-start gap-2 w-full">
               <label htmlFor="description">Product Description</label>
-              <Editor
+              {/* <Editor
                 apiKey={import.meta.env.VITE_TINYMCE_API_KEY}
                 init={{
                   height: 300,
@@ -207,6 +241,13 @@ const AddProduct = () => {
                 onEditorChange={(content) =>
                   setFieldValue("description", content)
                 }
+              /> */}
+              <Field
+                type="text"
+                as="textarea"
+                name="description"
+                placeholder="Description"
+                className="border border-gray-400 focus:outline-none px-2 py-1 w-full"
               />
               <ErrorMessage
                 className="text-red-600"
@@ -258,6 +299,7 @@ const AddProduct = () => {
                     </p>
                   </div>
                 </div>
+                <span className="text-red-700">{errorMessage}</span>
               </div>
               {imageUploaded && (
                 <div className="w-1/2 flex flex-col items-end gap-2">
