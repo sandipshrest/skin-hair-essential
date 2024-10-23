@@ -10,6 +10,7 @@ const ProductList = () => {
   const [productList, setProductList] = useState([]);
   const [page, setPage] = useState(1);
   const [total, setTotal] = useState(0);
+  const [openPopup, setOpenPopup] = useState(null);
 
   // function to fetch product list
   const fetchProduct = async () => {
@@ -29,6 +30,21 @@ const ProductList = () => {
   useEffect(() => {
     fetchProduct();
   }, [page]);
+
+  // function to fetch product list
+  const deleteProduct = async (productId) => {
+    try {
+      const response = await api.delete(`/product/${productId}`);
+      if (response.status === 200) {
+        toast.success(response.data.msg);
+        fetchProduct();
+      } else {
+        toast.error(response.data.msg);
+      }
+    } catch (err) {
+      console.error(err);
+    }
+  };
 
   // define column to display the product list on the table
   const columns = [
@@ -81,16 +97,53 @@ const ProductList = () => {
     },
     {
       title: "Actions",
-      render: (text, record) => (
-        <div className="flex items-center gap-4">
-          <button>
-            <FaRegEdit size={20} />
-          </button>
-          <button className="text-red-600">
-            <MdDelete size={20} />
-          </button>
-        </div>
-      ),
+      render: (text, record, index) => {
+        return (
+          <div className="flex items-center gap-4">
+            <button>
+              <FaRegEdit size={20} />
+            </button>
+            <button
+              onClick={() => {
+                if (openPopup === index) {
+                  setOpenPopup(null);
+                  return;
+                }
+                setOpenPopup(index);
+              }}
+              className="text-red-600 relative"
+            >
+              <MdDelete size={20} />
+              {openPopup === index && (
+                <div className="absolute bottom-5 right-2 shadow-md w-[250px] bg-gray-50 text-black p-2 rounded">
+                  You want to delete this product?
+                  <div className="flex items-center justify-center gap-2 mt-1">
+                    <button
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        deleteProduct(record._id);
+                        setOpenPopup(null);
+                      }}
+                      className="bg-red-700 text-white py-0.5 px-2 text-sm font-medium"
+                    >
+                      Yes
+                    </button>
+                    <button
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        setOpenPopup(null);
+                      }}
+                      className="bg-green-700 text-white py-0.5 px-2 text-sm font-medium"
+                    >
+                      No
+                    </button>
+                  </div>
+                </div>
+              )}
+            </button>
+          </div>
+        );
+      },
     },
   ];
 
