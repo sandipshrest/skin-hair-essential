@@ -36,6 +36,7 @@ const CategoryList = () => {
         toast.error(response.data.msg);
       }
     } catch (err) {
+      // toast.error(err.response.data.error);
       console.error(err);
     }
   };
