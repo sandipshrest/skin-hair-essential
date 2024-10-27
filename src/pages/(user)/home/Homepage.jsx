@@ -1,10 +1,10 @@
 import React from "react";
-import Banner from "./Banner";
-import Feature from "./Feature";
-import FeatureProduct from "./FeatureProduct";
-import Testimonial from "./Testimonial";
-import Products from "./Products";
-import Ad from "./Ad";
+import Banner from "./components/Banner";
+import Feature from "./components/Feature";
+import FeatureProduct from "./components/FeatureProduct";
+import Testimonial from "./components/Testimonial";
+import Products from "./components/Products";
+import Ad from "./components/Ad";
 
 const Homepage = () => {
   return (

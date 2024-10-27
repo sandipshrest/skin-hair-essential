@@ -1,5 +1,5 @@
 import React from "react";
-import FeatureData from "../../../data/FeatureData";
+import FeatureData from "../../../../data/FeatureData";
 
 const Feature = () => {
   return (

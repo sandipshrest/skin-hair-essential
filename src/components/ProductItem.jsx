@@ -25,7 +25,7 @@ const ProductItem = ({ product }) => {
           className="inline-block w-full h-auto"
         >
           <img
-            src={product.image}
+            src={product.productImages?.[0]}
             alt={product.productName}
             className="w-full h-[400px] object-contain bg-color1 bg-opacity-25"
           />
@@ -51,7 +51,7 @@ const ProductItem = ({ product }) => {
       </div>
       <div className="p-3 space-y-1">
         <small className="text-base font-medium text-gray-800">
-          {product.category}
+          {product.category.category}
         </small>
         <h3 className="text-xl font-semibold text-color3">
           {product.productName}
