@@ -21,7 +21,7 @@ const ProductItem = ({ product }) => {
     <div className="flex flex-col group rounded overflow-hidden border bg-white hover:shadow-md">
       <div className="relative w-full h-auto overflow-hidden">
         <Link
-          to={`/products/${product.productName}`}
+          to={`/products/${product.productName}?id=${product._id}`}
           className="inline-block w-full h-auto"
         >
           <img

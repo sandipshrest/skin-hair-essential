@@ -1,21 +1,60 @@
-import React from "react";
-import { Link, useParams } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { Link, useParams, useSearchParams } from "react-router-dom";
 import ProductData from "../../../data/ProductData";
 import ProductItem from "../../../components/ProductItem";
 import { useDispatch, useSelector } from "react-redux";
 import { addToWishlist } from "../../../redux/reducerSlice/WishlistSlice";
 import { addToCart } from "../../../redux/reducerSlice/CartSlice";
 import ReactImageMagnify from "@blacklab/react-image-magnify";
+import api from "../../../api/axios";
 
 const ProductDetail = () => {
   const { productName } = useParams();
-  const productDetail = ProductData.find(
-    (item) => item.productName === productName
-  );
-  const similarProducts = ProductData.filter(
-    (item) =>
-      item.category === productDetail?.category &&
-      item.productName !== productName
+  const [searchParams] = useSearchParams();
+  const id = searchParams.get("id");
+  const [productDetail, setProductDetail] = useState({});
+  const [categoryProduct, setCategoryProduct] = useState([]);
+
+  // fetch product detail
+  const fetchProductDetail = async () => {
+    try {
+      const response = await api.get(`/product/${id}`);
+      if (response.status === 200) {
+        setProductDetail(response.data.product);
+      } else {
+        toast.error("Failed to fetch product detail");
+      }
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  // fetch product by category
+  const fetchProductByCategory = async () => {
+    try {
+      const response = await api.get(
+        `/product/category?category=${productDetail?.category?.category}`
+      );
+      if (response.status === 200) {
+        setCategoryProduct(response.data.productList);
+      } else {
+        toast.error("Failed to fetch products");
+      }
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  useEffect(() => {
+    fetchProductDetail();
+  }, [id]);
+
+  useEffect(() => {
+    fetchProductByCategory();
+  }, [productDetail]);
+
+  const similarProducts = categoryProduct?.filter(
+    (item) => item.productName !== productName
   );
 
   const dispatch = useDispatch();
@@ -30,17 +69,30 @@ const ProductDetail = () => {
     return wishlistItems?.some((wishlistItem) => wishlistItem.id === item.id);
   };
 
+  // function to calculate discounted price
+  const calculateDiscountedPrice = (price, discount) => {
+    return price - (price * discount) / 100;
+  };
+
   return (
     <>
       <section className="pt-32 pb-6 bg-green-700 bg-opacity-15">
         <div className="container">
           <ul className="flex items-center text-lg gap-2 font-medium">
             <li>
-              <Link to="/" className="text-color3"> Home </Link>
+              <Link to="/" className="text-color3">
+                {" "}
+                Home{" "}
+              </Link>
             </li>
             /
             <li>
-              <Link to={`/categories/${productDetail.category}`} className="text-color3">{productDetail.category} </Link>
+              <Link
+                to={`/categories/${productDetail?.category?.category}`}
+                className="text-color3"
+              >
+                {productDetail?.category?.category}
+              </Link>
             </li>
             /<li>{productName}</li>
           </ul>
@@ -55,13 +107,13 @@ const ProductDetail = () => {
                   imageProps={{
                     alt: productName,
                     height: 450,
-                    src: productDetail.image,
+                    src: productDetail.productImages?.[0],
                     className:
                       "h-[450px] object-contain bg-color3 bg-opacity-20",
                   }}
                   magnifiedImageProps={{
                     height: 800,
-                    src: productDetail.image,
+                    src: productDetail.productImages?.[0],
                     width: 800,
                     className: "object-contain bg-white",
                   }}
@@ -86,17 +138,35 @@ const ProductDetail = () => {
             <div className="w-2/3 flex flex-col gap-12">
               <div className="flex flex-col gap-2">
                 <small className="text-base font-medium text-gray-700">
-                  {productDetail.category}
+                  {productDetail?.category?.category}
                 </small>
                 <h2 className="text-4xl font-semibold">
                   {productDetail.productName}
                 </h2>
-                <p>{productDetail.desc}</p>
+                <p>{productDetail.description}</p>
                 <p className="text-lg font-semibold">
-                  Imported From: {productDetail.companyName}
+                  Imported From: {productDetail.importedCompany}
                 </p>
                 <b className="text-xl font-bold">
-                  Price: {productDetail.price}
+                  {productDetail.discount > 0 ? (
+                    <div className="flex items-center gap-3">
+                      <p className="text-black">
+                        Rs.
+                        {calculateDiscountedPrice(
+                          productDetail.price,
+                          productDetail.discount
+                        )}
+                      </p>
+                      <span className="line-through text-gray-700 font-medium text-base">
+                        Rs.{productDetail.price}
+                      </span>
+                      <span className="text-green-700 font-medium text-base">
+                        {productDetail.discount}% off
+                      </span>
+                    </div>
+                  ) : (
+                    <span>Rs.{productDetail.price}</span>
+                  )}
                 </b>
                 <div className="flex items-center gap-3 mt-3 text-lg">
                   <button
