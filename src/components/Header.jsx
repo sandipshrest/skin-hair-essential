@@ -5,18 +5,22 @@ import { FaRegUser } from "react-icons/fa";
 import ProductData from "../data/ProductData";
 import { useSelector } from "react-redux";
 import RightSidebar from "./RightSidebar";
+import api from "../api/axios";
+import toast from "react-hot-toast";
 
 const Header = () => {
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
   const [productMenu, setProductMenu] = useState(false);
   const { isLogin } = useSelector((state) => state.user);
+  const [products, setProducts] = useState([]);
 
   const handleScroll = () => {
     const scrollTop = window.scrollY;
     setScrolled(scrollTop > 0);
   };
 
+  // handle scroll event
   useEffect(() => {
     window.addEventListener("scroll", handleScroll);
     return () => {
@@ -24,17 +28,35 @@ const Header = () => {
     };
   }, []);
 
+  // fetch products
+  const fetchProducts = async () => {
+    try {
+      const response = await api.get(`/product`);
+      if (response.status === 200) {
+        setProducts(response.data.productList);
+      } else {
+        toast.error("Failed to fetch products");
+      }
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  useEffect(() => {
+    fetchProducts();
+  }, []);
+
   const categoryData = {};
 
-  ProductData?.forEach((product) => {
-    if (!categoryData[product.category]) {
-      categoryData[product.category] = {
-        category: product.category,
-        thumbnailImage: product.image,
+  products?.forEach((product) => {
+    if (!categoryData[product.category.category]) {
+      categoryData[product.category.category] = {
+        category: product.category.category,
+        thumbnailImage: product.productImages[0],
         products: [product],
       };
     } else {
-      categoryData[product.category].products.push(product);
+      categoryData[product.category.category].products.push(product);
     }
   });
 
@@ -95,7 +117,7 @@ const Header = () => {
                                   <li key={productId}>
                                     <Link
                                       onClick={() => setProductMenu(false)}
-                                      to={`/products/${productItem.productName}`}
+                                      to={`/products/${productItem.productName}?id=${productItem._id}`}
                                       className="inline-block w-full p-[2px] hover:bg-gray-100"
                                     >
                                       {productItem.productName}

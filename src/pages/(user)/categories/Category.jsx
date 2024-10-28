@@ -1,11 +1,32 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import ProductData from "../../../data/ProductData";
 import ProductItem from "../../../components/ProductItem";
+import api from "../../../api/axios";
+import toast from "react-hot-toast";
 
 const Category = () => {
   const { category } = useParams();
-  const products = ProductData.filter((item) => item.category === category);
+  const [products, setProducts] = useState([]);
+
+  // fetch products by category
+  const fetchProducts = async () => {
+    try {
+      const response = await api.get(`/product/category?category=${category}`);
+      if (response.status === 200) {
+        setProducts(response.data.productList);
+      } else {
+        toast.error("Failed to fetch products");
+      }
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  useEffect(() => {
+    fetchProducts();
+  }, [category]);
+
   return (
     <>
       <section className="pt-32 pb-6 bg-green-700 bg-opacity-15">
