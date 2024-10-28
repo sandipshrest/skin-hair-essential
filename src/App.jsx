@@ -16,6 +16,7 @@ import Dashboard from "./pages/(admin)/dashboard/Dashboard";
 import ProductList from "./pages/(admin)/productList/ProductList";
 import CategoryList from "./pages/(admin)/categoryList/CategoryList";
 import AddProduct from "./pages/(admin)/product/AddProduct";
+import SearchProduct from "./pages/(user)/searchProduct/SearchProduct";
 
 function App() {
   return (
@@ -30,6 +31,7 @@ function App() {
             <Route exact path="/login" element={<Login />} />
             <Route exact path="/signup" element={<Signup />} />
             <Route exact path="/wishlist" element={<Wishlist />} />
+            <Route exact path="/searchProduct" element={<SearchProduct />} />
             <Route exact path="/categories/:category" element={<Category />} />
             <Route
               exact
