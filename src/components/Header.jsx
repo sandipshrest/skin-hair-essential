@@ -74,7 +74,7 @@ const Header = () => {
         setCurrentSelection(null);
       } else {
         const { status, data } = await api.get(
-          `/product/search?productName=${inputRef.current.value}`
+          `/product/search?searchedText=${inputRef.current.value}`
         );
         if (status === 200) {
           setSearchProduct(data.searchedProduct);
