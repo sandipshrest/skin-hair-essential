@@ -7,6 +7,9 @@ import { addToWishlist } from "../../../redux/reducerSlice/WishlistSlice";
 import { addToCart } from "../../../redux/reducerSlice/CartSlice";
 import ReactImageMagnify from "@blacklab/react-image-magnify";
 import api from "../../../api/axios";
+import moment from "moment/moment";
+import { FaRegStar, FaStar } from "react-icons/fa";
+import { Tooltip } from "antd";
 
 const ProductDetail = () => {
   const { productName } = useParams();
@@ -14,6 +17,9 @@ const ProductDetail = () => {
   const id = searchParams.get("id");
   const [productDetail, setProductDetail] = useState({});
   const [categoryProduct, setCategoryProduct] = useState([]);
+  const [feedbackList, setFeedbackList] = useState([]);
+  const [isHovered, setIsHovered] = useState(null);
+  const [rating, setRating] = useState(null);
 
   // fetch product detail
   const fetchProductDetail = async () => {
@@ -28,6 +34,25 @@ const ProductDetail = () => {
       console.error(err);
     }
   };
+
+  //fetch feedback
+  const fetchFeedback = async () => {
+    try {
+      const response = await api.get(`/feedback/product/${id}`);
+      if (response.status === 200) {
+        setFeedbackList(response.data.allFeedback);
+      } else {
+        toast.error("Failed to fetch feedbacks");
+      }
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  useEffect(() => {
+    fetchProductDetail();
+    fetchFeedback();
+  }, [id]);
 
   // fetch product by category
   const fetchProductByCategory = async () => {
@@ -44,10 +69,6 @@ const ProductDetail = () => {
       console.error(err);
     }
   };
-
-  useEffect(() => {
-    fetchProductDetail();
-  }, [id]);
 
   useEffect(() => {
     fetchProductByCategory();
@@ -72,6 +93,20 @@ const ProductDetail = () => {
   // function to calculate discounted price
   const calculateDiscountedPrice = (price, discount) => {
     return price - (price * discount) / 100;
+  };
+
+  // ratings
+  const ratings = [
+    { rating: 1, feedback: "Very Bad" },
+    { rating: 2, feedback: "Bad" },
+    { rating: 3, feedback: "Average" },
+    { rating: 4, feedback: "Good" },
+    { rating: 5, feedback: "Excellent" },
+  ];
+
+  // feedback message to display
+  const feedbackMessageToDisplay = (rating) => {
+    return ratings.find((item) => item.rating === rating).feedback;
   };
 
   return (
@@ -194,7 +229,46 @@ const ProductDetail = () => {
                 </div>
               </div>
               <div className="bg-white w-full p-5 shadow-md space-y-5">
-                <h3 className="text-xl font-semibold">Give Feedback</h3>
+                <h3 className="text-xl font-semibold">Post Feedback</h3>
+                <div className="flex items-center">
+                  {ratings.map((item, id) => {
+                    if (item.rating !== null && item.rating <= isHovered) {
+                      return (
+                        <Tooltip
+                          title={item.feedback}
+                          key={item.rating}
+                          className="px-1"
+                        >
+                          <FaStar
+                            key={id}
+                            size={30}
+                            className="cursor-pointer text-green-700"
+                            onMouseEnter={() => setIsHovered(item.rating)}
+                            onMouseLeave={() => setIsHovered(null)}
+                            onClick={() => alert("Hello wrold")}
+                          />
+                        </Tooltip>
+                      );
+                    } else {
+                      return (
+                        <Tooltip
+                          title={item.feedback}
+                          key={item.rating}
+                          className="px-1"
+                        >
+                          <FaRegStar
+                            key={id}
+                            size={30}
+                            className="cursor-pointer"
+                            onMouseEnter={() => setIsHovered(item.rating)}
+                            onMouseLeave={() => setIsHovered(null)}
+                            onClick={() => alert("Hello wrold")}
+                          />
+                        </Tooltip>
+                      );
+                    }
+                  })}
+                </div>
                 <form className="w-1/2 space-y-1">
                   <textarea
                     name=""
@@ -210,6 +284,34 @@ const ProductDetail = () => {
                   />
                 </form>
               </div>
+              {feedbackList.length > 0 && (
+                <div className="bg-white w-full py-5 shadow-md space-y-4">
+                  <h3 className="text-xl font-semibold px-5">All feedbacks</h3>
+                  <div>
+                    {feedbackList.map((feedback, id) => (
+                      <div
+                        key={id}
+                        className="px-5 py-3 border-y border-gray-300 space-y-2.5"
+                      >
+                        <div className="flex items-start gap-2.5">
+                          <p className="flex items-center gap-1 py-0.5 px-1.5 text-sm font-semibold bg-green-700 text-white rounded">
+                            {feedback.rating}
+                            <FaStar size={12} />
+                          </p>
+                          <p className="text-xl font-bold">
+                            {feedbackMessageToDisplay(feedback.rating)}
+                          </p>
+                        </div>
+                        <p className="font-medium">{feedback.feedback}</p>
+                        <div className="flex text-sm font-semibold text-gray-600 items-center gap-2">
+                          <p>{feedback.postedBy.name}</p>
+                          <p>{moment(feedback.updatedAt).format("LL")}</p>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
             </div>
           </div>
         )}
