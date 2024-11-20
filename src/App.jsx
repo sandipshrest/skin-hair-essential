@@ -1,5 +1,10 @@
 import "./App.css";
-import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
+import {
+  Navigate,
+  Route,
+  BrowserRouter as Router,
+  Routes,
+} from "react-router-dom";
 import Cart from "./pages/(user)/cart/Cart";
 import ProductDetail from "./pages/(user)/products/ProductDetail";
 import Category from "./pages/(user)/categories/Category";
@@ -17,8 +22,10 @@ import ProductList from "./pages/(admin)/productList/ProductList";
 import CategoryList from "./pages/(admin)/categoryList/CategoryList";
 import AddProduct from "./pages/(admin)/product/AddProduct";
 import SearchProduct from "./pages/(user)/searchProduct/SearchProduct";
+import { useSelector } from "react-redux";
 
 function App() {
+  const { isLogin, user } = useSelector((state) => state.user);
   return (
     <>
       <Router>
@@ -42,7 +49,16 @@ function App() {
           </Route>
 
           {/* for admin or authorized person only */}
-          <Route path="/dashboard" element={<AdminLayout />}>
+          <Route
+            path="/dashboard"
+            element={
+              !isLogin || user?.role?.toLowerCase() === "user" ? (
+                <Navigate to="/" />
+              ) : (
+                <AdminLayout />
+              )
+            }
+          >
             <Route exact index element={<Dashboard />} />
             <Route
               exact

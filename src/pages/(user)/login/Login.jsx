@@ -29,6 +29,7 @@ const Login = () => {
           : navigate("/dashboard");
         dispatch(
           loginUser({
+            user: response.data?.user,
             token: {
               accessToken: response.data?.tokens?.accessToken,
               refreshToken: response.data?.tokens?.refreshToken,
