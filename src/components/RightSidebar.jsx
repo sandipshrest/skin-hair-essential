@@ -7,16 +7,32 @@ import { MdLogout } from "react-icons/md";
 import { Link } from "react-router-dom";
 import { BsCart3 } from "react-icons/bs";
 import { FaRegHeart, FaRegUser } from "react-icons/fa6";
+import api from "../api/axios";
 
 const RightSidebar = ({ open, setOpen }) => {
   const dispatch = useDispatch();
   const cartItems = useSelector((state) => state.cart);
   const wishlistItems = useSelector((state) => state.wishlist);
+  const { token } = useSelector((state) => state.user);
 
-  const handleLogout = () => {
-    dispatch(logoutUser());
-    setOpen(false);
-    toast.success("Logout");
+  //function to logout user
+  const handleLogout = async () => {
+    try {
+      const response = await api.delete("/user/logout", {
+        headers: {
+          Authorization: `Bearer ${token?.accessToken}`,
+        },
+      });
+      if (response.status === 200) {
+        dispatch(logoutUser());
+        setOpen(false);
+        toast.success(response.data.msg);
+      } else {
+        toast.error("Failed to logout!");
+      }
+    } catch (err) {
+      console.error(err);
+    }
   };
 
   useEffect(() => {

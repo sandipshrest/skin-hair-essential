@@ -18,17 +18,21 @@ const Login = () => {
   const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
 
+  // function to handle login
   const handleLogin = async (values) => {
     try {
       const response = await api.post("/user/login", values);
       if (response.status === 200) {
         toast.success(response.data.msg);
-        response.data.userDetail?.role?.toLowerCase() === "user"
+        response.data.user?.role?.toLowerCase() === "user"
           ? navigate("/")
           : navigate("/dashboard");
         dispatch(
           loginUser({
-            token: response.data.accessTokenKey,
+            token: {
+              accessToken: response.data?.tokens?.accessToken,
+              refreshToken: response.data?.tokens?.refreshToken,
+            },
           })
         );
       } else {

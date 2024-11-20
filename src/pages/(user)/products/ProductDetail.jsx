@@ -1,5 +1,10 @@
 import React, { useEffect, useState } from "react";
-import { Link, useParams, useSearchParams } from "react-router-dom";
+import {
+  Link,
+  useNavigate,
+  useParams,
+  useSearchParams,
+} from "react-router-dom";
 import ProductData from "../../../data/ProductData";
 import ProductItem from "../../../components/ProductItem";
 import { useDispatch, useSelector } from "react-redux";
@@ -8,10 +13,12 @@ import { addToCart } from "../../../redux/reducerSlice/CartSlice";
 import ReactImageMagnify from "@blacklab/react-image-magnify";
 import api from "../../../api/axios";
 import moment from "moment/moment";
-import { FaRegStar, FaStar } from "react-icons/fa";
+import { FaLock, FaRegStar, FaStar } from "react-icons/fa";
 import { Tooltip } from "antd";
 
 const ProductDetail = () => {
+  const navigate = useNavigate();
+  const { isLogin } = useSelector((state) => state.user);
   const { productName } = useParams();
   const [searchParams] = useSearchParams();
   const id = searchParams.get("id");
@@ -20,6 +27,7 @@ const ProductDetail = () => {
   const [feedbackList, setFeedbackList] = useState([]);
   const [isHovered, setIsHovered] = useState(null);
   const [rating, setRating] = useState(null);
+  const [message, setMessage] = useState("");
 
   // fetch product detail
   const fetchProductDetail = async () => {
@@ -228,61 +236,79 @@ const ProductDetail = () => {
                   </button>
                 </div>
               </div>
-              <div className="bg-white w-full p-5 shadow-md space-y-5">
+              <div className="bg-white w-full p-5 shadow-md space-y-4 relative">
                 <h3 className="text-xl font-semibold">Post Feedback</h3>
-                <div className="flex items-center">
-                  {ratings.map((item, id) => {
-                    if (item.rating !== null && item.rating <= isHovered) {
-                      return (
-                        <Tooltip
-                          title={item.feedback}
-                          key={item.rating}
-                          className="px-1"
-                        >
-                          <FaStar
-                            key={id}
-                            size={30}
-                            className="cursor-pointer text-green-700"
-                            onMouseEnter={() => setIsHovered(item.rating)}
-                            onMouseLeave={() => setIsHovered(null)}
-                            onClick={() => alert("Hello wrold")}
-                          />
-                        </Tooltip>
-                      );
-                    } else {
-                      return (
-                        <Tooltip
-                          title={item.feedback}
-                          key={item.rating}
-                          className="px-1"
-                        >
-                          <FaRegStar
-                            key={id}
-                            size={30}
-                            className="cursor-pointer"
-                            onMouseEnter={() => setIsHovered(item.rating)}
-                            onMouseLeave={() => setIsHovered(null)}
-                            onClick={() => alert("Hello wrold")}
-                          />
-                        </Tooltip>
-                      );
-                    }
-                  })}
-                </div>
-                <form className="w-1/2 space-y-1">
+                <form
+                  className={`w-1/2 space-y-3 ${
+                    !isLogin && "filter blur-[3px] opacity-40"
+                  }`}
+                >
+                  <div className="flex items-center">
+                    {ratings.map((item, id) => {
+                      if (
+                        (item.rating !== null && item.rating <= isHovered) ||
+                        item.rating <= rating
+                      ) {
+                        return (
+                          <Tooltip
+                            title={item.feedback}
+                            key={item.rating}
+                            className="px-1"
+                          >
+                            <FaStar
+                              key={id}
+                              size={30}
+                              className="cursor-pointer text-green-700"
+                              onMouseEnter={() => setIsHovered(item.rating)}
+                              onMouseLeave={() => setIsHovered(null)}
+                              onClick={() => setRating(item.rating)}
+                            />
+                          </Tooltip>
+                        );
+                      } else {
+                        return (
+                          <Tooltip
+                            title={item.feedback}
+                            key={item.rating}
+                            className="px-1"
+                          >
+                            <FaRegStar
+                              key={id}
+                              size={30}
+                              className="cursor-pointer"
+                              onMouseEnter={() => setIsHovered(item.rating)}
+                              onMouseLeave={() => setIsHovered(null)}
+                              onClick={() => alert("Hello wrold")}
+                            />
+                          </Tooltip>
+                        );
+                      }
+                    })}
+                  </div>
                   <textarea
-                    name=""
-                    id=""
                     rows="6"
+                    onChange={(e) => setMessage(e.target.value)}
                     placeholder="Write something..."
                     className="border border-gray-500 p-1 rounded focus:outline-none w-full"
                   ></textarea>
-                  <input
+                  <button
                     type="submit"
-                    value="Submit"
+                    disabled={!rating || !message}
                     className="py-1 px-2 bg-green-700 font-medium border border-green-700 text-white"
-                  />
+                  >
+                    Submit
+                  </button>
                 </form>
+                {!isLogin && (
+                  <div className="absolute w-full h-[260px] left-0 bottom-3.5 flex items-center justify-center">
+                    <button
+                      onClick={() => navigate("/login")}
+                      className="bg-black flex items-center gap-1.5 rounded-lg text-white font-medium py-1 px-2"
+                    >
+                      Log in <FaLock />
+                    </button>
+                  </div>
+                )}
               </div>
               {feedbackList.length > 0 && (
                 <div className="bg-white w-full py-5 shadow-md space-y-4">
