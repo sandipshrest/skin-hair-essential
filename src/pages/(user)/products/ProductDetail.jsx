@@ -15,10 +15,11 @@ import api from "../../../api/axios";
 import moment from "moment/moment";
 import { FaLock, FaRegStar, FaStar } from "react-icons/fa";
 import { Tooltip } from "antd";
+import toast from "react-hot-toast";
 
 const ProductDetail = () => {
   const navigate = useNavigate();
-  const { isLogin } = useSelector((state) => state.user);
+  const { isLogin, token, user } = useSelector((state) => state.user);
   const { productName } = useParams();
   const [searchParams] = useSearchParams();
   const id = searchParams.get("id");
@@ -28,6 +29,9 @@ const ProductDetail = () => {
   const [isHovered, setIsHovered] = useState(null);
   const [rating, setRating] = useState(null);
   const [message, setMessage] = useState("");
+  const dispatch = useDispatch();
+  const cartItems = useSelector((state) => state.cart);
+  const wishlistItems = useSelector((state) => state.wishlist);
 
   // fetch product detail
   const fetchProductDetail = async () => {
@@ -86,10 +90,6 @@ const ProductDetail = () => {
     (item) => item.productName !== productName
   );
 
-  const dispatch = useDispatch();
-  const cartItems = useSelector((state) => state.cart);
-  const wishlistItems = useSelector((state) => state.wishlist);
-
   const isItemInCart = (item) => {
     return cartItems?.some((cartItem) => cartItem.id === item.id);
   };
@@ -115,6 +115,34 @@ const ProductDetail = () => {
   // feedback message to display
   const feedbackMessageToDisplay = (rating) => {
     return ratings.find((item) => item.rating === rating).feedback;
+  };
+
+  // function to submit feedback
+  const handleSubmitFeedback = async (e) => {
+    e.preventDefault();
+    try {
+      const response = await api.post(
+        "/feedback",
+        {
+          rating,
+          feedback: message,
+          product: id,
+        },
+        {
+          headers: { Authorization: `Bearer ${token?.accessToken}` },
+        }
+      );
+      if (response.status === 200) {
+        fetchFeedback();
+        setRating(null);
+        setMessage("");
+        toast.success(response?.data?.msg);
+      } else {
+        toast.error(response?.data?.msg);
+      }
+    } catch (err) {
+      toast.error(err.response.data.msg);
+    }
   };
 
   return (
@@ -239,6 +267,7 @@ const ProductDetail = () => {
               <div className="bg-white w-full p-5 shadow-md space-y-4 relative">
                 <h3 className="text-xl font-semibold">Post Feedback</h3>
                 <form
+                  onSubmit={handleSubmitFeedback}
                   className={`w-1/2 space-y-3 ${
                     !isLogin && "filter blur-[3px] opacity-40"
                   }`}
@@ -287,6 +316,7 @@ const ProductDetail = () => {
                   </div>
                   <textarea
                     rows="6"
+                    value={message}
                     onChange={(e) => setMessage(e.target.value)}
                     placeholder="Write something..."
                     className="border border-gray-500 p-1 rounded focus:outline-none w-full"
