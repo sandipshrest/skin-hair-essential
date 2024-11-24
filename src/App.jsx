@@ -23,6 +23,7 @@ import CategoryList from "./pages/(admin)/categoryList/CategoryList";
 import AddProduct from "./pages/(admin)/product/AddProduct";
 import SearchProduct from "./pages/(user)/searchProduct/SearchProduct";
 import { useSelector } from "react-redux";
+import FeedbackList from "./pages/(admin)/feedbackList/FeedbackList";
 
 function App() {
   const { isLogin, user } = useSelector((state) => state.user);
@@ -70,6 +71,11 @@ function App() {
               exact
               path="/dashboard/categoryList"
               element={<CategoryList />}
+            />
+            <Route
+              exact
+              path="/dashboard/feedbackList"
+              element={<FeedbackList />}
             />
           </Route>
         </Routes>

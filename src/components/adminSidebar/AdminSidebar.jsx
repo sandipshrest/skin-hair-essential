@@ -70,7 +70,7 @@ const AdminSidebar = ({ open }) => {
             </div>
           </li>
           <li className={cn("w-full group/sidebar")}>
-            <Link className="w-full flex items-center gap-2" to="">
+            <Link className="w-full flex items-center gap-2" to="/dashboard/feedbackList">
               <RiFeedbackFill size={24} />
               {open && <p>Feedbacks</p>}
             </Link>

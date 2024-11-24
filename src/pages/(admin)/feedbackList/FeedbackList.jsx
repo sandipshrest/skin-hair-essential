@@ -1,25 +1,23 @@
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
-import api from "../../../api/axios";
-import toast from "react-hot-toast";
 import { Pagination, Table } from "antd";
-import { FaRegEdit } from "react-icons/fa";
+import api from "../../../api/axios";
 import { MdDelete } from "react-icons/md";
 import moment from "moment";
+import toast from "react-hot-toast";
 
-const ProductList = () => {
-  const [productList, setProductList] = useState([]);
+const FeedbackList = () => {
+  const [feedbackList, setFeedbackList] = useState([]);
   const [page, setPage] = useState(1);
   const [total, setTotal] = useState(0);
   const [openPopup, setOpenPopup] = useState(null);
 
-  // function to fetch product list
-  const fetchProduct = async () => {
+  // function to fetch feedback list
+  const fetchFeedback = async () => {
     try {
-      const response = await api.get(`/product?page=${page}`);
+      const response = await api.get(`/feedback?page=${page}`);
       if (response.status === 200) {
-        setProductList(response.data.productList);
-        setTotal(response.data.totalProduct);
+        setFeedbackList(response.data.feedbackList);
+        setTotal(response.data.totalFeedback);
       } else {
         toast.error(response.data.msg);
       }
@@ -29,16 +27,16 @@ const ProductList = () => {
   };
 
   useEffect(() => {
-    fetchProduct();
+    fetchFeedback();
   }, [page]);
 
-  // function to fetch product list
-  const deleteProduct = async (productId) => {
+  // function to delete feedback
+  const handleDeleteFeedback = async (feedbackId) => {
     try {
-      const response = await api.delete(`/product/${productId}`);
+      const response = await api.delete(`/feedback/${feedbackId}`);
       if (response.status === 200) {
+        fetchFeedback();
         toast.success(response.data.msg);
-        fetchProduct();
       } else {
         toast.error(response.data.msg);
       }
@@ -47,7 +45,7 @@ const ProductList = () => {
     }
   };
 
-  // define column to display the product list on the table
+  // define column to display the feedback list on the table
   const columns = [
     {
       title: "S.N.",
@@ -58,53 +56,40 @@ const ProductList = () => {
       },
     },
     {
-      title: "Product Name",
-      dataIndex: "productName",
-      key: "productName",
+      title: "Feedback",
+      dataIndex: "feedback",
+      key: "feedback",
     },
     {
-      title: "Category",
-      dataIndex: "category",
-      key: "category",
-      render: (category) => {
-        return <span>{category.category}</span>;
+      title: "Rating",
+      dataIndex: "rating",
+      key: "rating",
+      render: (rating) => {
+        return <span>{rating}</span>;
       },
     },
     {
-      title: "Price",
-      dataIndex: "price",
-      key: "price",
-      render: (price) => {
-        return <span>Rs.{price}</span>;
+      title: "Product",
+      dataIndex: "product",
+      key: "product",
+      render: (product) => {
+        return <span>{product?.productName}</span>;
       },
     },
     {
-      title: "Discount",
-      dataIndex: "discount",
-      key: "discount",
-      render: (discount) => {
-        return <span>{discount}%</span>;
+      title: "Posted By",
+      dataIndex: "postedBy",
+      key: "postedBy",
+      render: (postedBy) => {
+        return <span>{postedBy.name}</span>;
       },
     },
     {
-      title: "Is Featured",
-      dataIndex: "isFeatured",
-      key: "isFeatured",
-      render: (isFeatured) => {
-        return <span>{isFeatured ? "Yes" : "No"}</span>;
-      },
-    },
-    {
-      title: "Imported From",
-      dataIndex: "importedCompany",
-      key: "importedCompany",
-    },
-    {
-      title: "Created At",
-      dataIndex: "createdAt",
-      key: "createdAt",
-      render: (createdAt) => {
-        return <span>{moment(createdAt).format("LL")}</span>;
+      title: "Posted At",
+      dataIndex: "updatedAt",
+      key: "updatedAt",
+      render: (updatedAt) => {
+        return <span>{moment(updatedAt).format("LL")}</span>;
       },
     },
     {
@@ -112,9 +97,6 @@ const ProductList = () => {
       render: (text, record, index) => {
         return (
           <div className="flex items-center gap-4">
-            <button>
-              <FaRegEdit size={20} />
-            </button>
             <button
               onClick={() => {
                 if (openPopup === index) {
@@ -128,12 +110,12 @@ const ProductList = () => {
               <MdDelete size={20} />
               {openPopup === index && (
                 <div className="absolute bottom-5 right-2 shadow-md w-[250px] bg-gray-50 text-black p-2 rounded">
-                  You want to delete this product?
+                  You want to delete this feedback?
                   <div className="flex items-center justify-center gap-2 mt-1">
                     <button
                       onClick={(e) => {
                         e.stopPropagation();
-                        deleteProduct(record._id);
+                        handleDeleteFeedback(record._id);
                         setOpenPopup(null);
                       }}
                       className="bg-red-700 text-white py-0.5 px-2 text-sm font-medium"
@@ -160,24 +142,16 @@ const ProductList = () => {
   ];
 
   return (
-    <div className="flex flex-col items-end gap-6 py-6 px-8 shadow-md bg-white rounded-lg">
-      <Link
-        to="/dashboard/product"
-        className="inline-block py-1 px-2 bg-black text-white font-medium"
-      >
-        Add Product
-      </Link>
-      <div className="w-full space-y-4">
-        <h3 className="text-2xl font-semibold">Product List</h3>
-        <Table dataSource={productList} columns={columns} pagination={false} />
-        <Pagination
-          defaultCurrent={page}
-          onChange={(page) => setPage(page)}
-          total={total}
-        />
-      </div>
+    <div className="w-full space-y-4 py-6 px-8 shadow-md bg-white rounded-lg">
+      <h3 className="text-2xl font-semibold">Feedback List</h3>
+      <Table dataSource={feedbackList} columns={columns} pagination={false} />
+      <Pagination
+        defaultCurrent={page}
+        onChange={(page) => setPage(page)}
+        total={total}
+      />
     </div>
   );
 };
 
-export default ProductList;
+export default FeedbackList;
