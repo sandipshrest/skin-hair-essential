@@ -14,8 +14,9 @@ import ReactImageMagnify from "@blacklab/react-image-magnify";
 import api from "../../../api/axios";
 import moment from "moment/moment";
 import { FaLock, FaRegStar, FaStar } from "react-icons/fa";
-import { Tooltip } from "antd";
+import { Modal, Tooltip } from "antd";
 import toast from "react-hot-toast";
+import { HiDotsVertical } from "react-icons/hi";
 
 const ProductDetail = () => {
   const navigate = useNavigate();
@@ -32,6 +33,10 @@ const ProductDetail = () => {
   const dispatch = useDispatch();
   const cartItems = useSelector((state) => state.cart);
   const wishlistItems = useSelector((state) => state.wishlist);
+  const [openPopup, setOpenPopup] = useState(false);
+  const [openModal, setOpenModal] = useState(false);
+  const [editMessage, setEditMessage] = useState(null);
+  const [editRating, setEditRating] = useState("");
 
   // fetch product detail
   const fetchProductDetail = async () => {
@@ -144,6 +149,53 @@ const ProductDetail = () => {
       toast.error(err.response.data.msg);
     }
   };
+
+  // function to delete feedback
+  const handleDeleteFeedback = async (feedbackId) => {
+    try {
+      const response = await api.delete(`/feedback/${feedbackId}`);
+      if (response.status === 200) {
+        fetchFeedback();
+        toast.success(response.data.msg);
+      } else {
+        toast.error(response.data.msg);
+      }
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  // function to update feedback
+  const handleUpdateFeedback = async (e) => {
+    e.preventDefault();
+    try {
+      const response = await api.patch("/feedback", {
+        rating: editRating,
+        feedback: editMessage,
+        id: feedbackByCurrentUser._id,
+      });
+      if (response.status === 200) {
+        fetchFeedback();
+        setEditRating(null);
+        setEditMessage("");
+        setOpenModal(false);
+        toast.success(response?.data?.msg);
+      } else {
+        toast.error(response?.data?.msg);
+      }
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  const feedbackByCurrentUser = feedbackList?.find(
+    (feedback) => feedback.postedBy._id === user._id
+  );
+
+  useEffect(() => {
+    setEditMessage(feedbackByCurrentUser?.feedback);
+    setEditRating(feedbackByCurrentUser?.rating);
+  }, [feedbackByCurrentUser]);
 
   return (
     <>
@@ -344,27 +396,86 @@ const ProductDetail = () => {
                 <div className="bg-white w-full py-5 shadow-md space-y-4">
                   <h3 className="text-xl font-semibold px-5">All feedbacks</h3>
                   <div>
-                    {feedbackList.map((feedback, id) => (
-                      <div
-                        key={id}
-                        className="px-5 py-3 border-y border-gray-300 space-y-2.5"
-                      >
-                        <div className="flex items-start gap-2.5">
-                          <p className="flex items-center gap-1 py-0.5 px-1.5 text-sm font-semibold bg-green-700 text-white rounded">
-                            {feedback.rating}
-                            <FaStar size={12} />
+                    {feedbackByCurrentUser && (
+                      <div className="px-5 py-3 border-y border-gray-300 flex items-start justify-between gap-4">
+                        <div className="space-y-2.5">
+                          <div className="flex items-start gap-2.5">
+                            <p className="flex items-center gap-1 py-0.5 px-1.5 text-sm font-semibold bg-green-700 text-white rounded">
+                              {feedbackByCurrentUser.rating}
+                              <FaStar size={12} />
+                            </p>
+                            <p className="text-xl font-bold">
+                              {feedbackMessageToDisplay(
+                                feedbackByCurrentUser.rating
+                              )}
+                            </p>
+                          </div>
+                          <p className="font-medium">
+                            {feedbackByCurrentUser.feedback}
                           </p>
-                          <p className="text-xl font-bold">
-                            {feedbackMessageToDisplay(feedback.rating)}
-                          </p>
+                          <div className="flex text-sm font-semibold text-gray-600 items-center gap-2">
+                            <p>{feedbackByCurrentUser.postedBy.name}</p>
+                            <p>
+                              {moment(feedbackByCurrentUser.updatedAt).format(
+                                "LL"
+                              )}
+                            </p>
+                          </div>
                         </div>
-                        <p className="font-medium">{feedback.feedback}</p>
-                        <div className="flex text-sm font-semibold text-gray-600 items-center gap-2">
-                          <p>{feedback.postedBy.name}</p>
-                          <p>{moment(feedback.updatedAt).format("LL")}</p>
+                        <div className="relative">
+                          <button onClick={() => setOpenPopup(!openPopup)}>
+                            <HiDotsVertical size={24} />
+                          </button>
+                          {openPopup && (
+                            <div className="absolute top-0 right-5 bg-gray-100 rounded-md p-2 shadow-lg">
+                              <button
+                                onClick={() => {
+                                  setOpenModal(true);
+                                  setOpenPopup(false);
+                                }}
+                                className="text-blue-700 font-semibold pb-2 border-b border-gray-300 px-6 w-full"
+                              >
+                                Edit
+                              </button>
+                              <button
+                                onClick={() => {
+                                  handleDeleteFeedback(
+                                    feedbackByCurrentUser._id
+                                  );
+                                  setOpenPopup(false);
+                                }}
+                                className="text-red-700 font-semibold px-6 pt-2 w-full"
+                              >
+                                Delete
+                              </button>
+                            </div>
+                          )}
                         </div>
                       </div>
-                    ))}
+                    )}
+                    {feedbackList
+                      ?.filter((feedback) => feedback.postedBy._id !== user._id)
+                      ?.map((feedback, id) => (
+                        <div
+                          key={id}
+                          className="px-5 py-3 border-y border-gray-300 space-y-2.5"
+                        >
+                          <div className="flex items-start gap-2.5">
+                            <p className="flex items-center gap-1 py-0.5 px-1.5 text-sm font-semibold bg-green-700 text-white rounded">
+                              {feedback.rating}
+                              <FaStar size={12} />
+                            </p>
+                            <p className="text-xl font-bold">
+                              {feedbackMessageToDisplay(feedback.rating)}
+                            </p>
+                          </div>
+                          <p className="font-medium">{feedback.feedback}</p>
+                          <div className="flex text-sm font-semibold text-gray-600 items-center gap-2">
+                            <p>{feedback.postedBy.name}</p>
+                            <p>{moment(feedback.updatedAt).format("LL")}</p>
+                          </div>
+                        </div>
+                      ))}
                   </div>
                 </div>
               )}
@@ -383,6 +494,74 @@ const ProductDetail = () => {
             </div>
           </div>
         </section>
+      )}
+      {openModal && (
+        <Modal
+          open={openModal}
+          onCancel={() => setOpenModal(false)}
+          onOk={() => setOpenModal(false)}
+          title="Edit Feedback"
+          footer={null}
+        >
+          <form onSubmit={handleUpdateFeedback} className={`space-y-3 p-2`}>
+            <div className="flex items-center">
+              {ratings.map((item, id) => {
+                if (
+                  (item.rating !== null && item.rating <= isHovered) ||
+                  item.rating <= editRating
+                ) {
+                  return (
+                    <Tooltip
+                      title={item.feedback}
+                      key={item.rating}
+                      className="px-1"
+                    >
+                      <FaStar
+                        key={id}
+                        size={30}
+                        className="cursor-pointer text-green-700"
+                        onMouseEnter={() => setIsHovered(item.rating)}
+                        onMouseLeave={() => setIsHovered(null)}
+                        onClick={() => setEditRating(item.rating)}
+                      />
+                    </Tooltip>
+                  );
+                } else {
+                  return (
+                    <Tooltip
+                      title={item.feedback}
+                      key={item.rating}
+                      className="px-1"
+                    >
+                      <FaRegStar
+                        key={id}
+                        size={30}
+                        className="cursor-pointer"
+                        onMouseEnter={() => setIsHovered(item.rating)}
+                        onMouseLeave={() => setIsHovered(null)}
+                        onClick={() => alert("Hello wrold")}
+                      />
+                    </Tooltip>
+                  );
+                }
+              })}
+            </div>
+            <textarea
+              rows="6"
+              value={editMessage}
+              onChange={(e) => setEditMessage(e.target.value)}
+              placeholder="Write something..."
+              className="border border-gray-500 p-1 rounded focus:outline-none w-full"
+            ></textarea>
+            <button
+              type="submit"
+              disabled={!editRating || !editMessage}
+              className="py-1 px-2 bg-green-700 font-medium border border-green-700 text-white"
+            >
+              Submit
+            </button>
+          </form>
+        </Modal>
       )}
     </>
   );
