@@ -96,11 +96,11 @@ const ProductDetail = () => {
   );
 
   const isItemInCart = (item) => {
-    return cartItems?.some((cartItem) => cartItem.id === item.id);
+    return cartItems?.some((cartItem) => cartItem.id === item?._id);
   };
 
   const isItemInWishlist = (item) => {
-    return wishlistItems?.some((wishlistItem) => wishlistItem.id === item.id);
+    return wishlistItems?.some((wishlistItem) => wishlistItem.id === item?._id);
   };
 
   // function to calculate discounted price
@@ -305,7 +305,7 @@ const ProductDetail = () => {
                 <div className="flex items-center gap-3 mt-3 text-lg">
                   <button
                     disabled={isItemInCart(productDetail)}
-                    onClick={() => dispatch(addToCart(productDetail))}
+                    onClick={() => dispatch(addToCart(productDetail?._id))}
                     className={`py-1 px-2 text-white transition-all duration-200 ease-linear ${
                       isItemInCart(productDetail)
                         ? "bg-green-500"
@@ -316,7 +316,7 @@ const ProductDetail = () => {
                   </button>
                   <button
                     disabled={isItemInWishlist(productDetail)}
-                    onClick={() => dispatch(addToWishlist(productDetail))}
+                    onClick={() => dispatch(addToWishlist(productDetail?._id))}
                     className={`py-1 px-2 bg-color3 text-white transition-all duration-200 ease-linear ${
                       isItemInWishlist(productDetail)
                         ? "bg-opacity-80"

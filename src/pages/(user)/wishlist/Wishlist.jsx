@@ -1,17 +1,42 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { addToCart } from "../../../redux/reducerSlice/CartSlice";
 import { removeFromWishlist } from "../../../redux/reducerSlice/WishlistSlice";
+import api from "../../../api/axios";
+import toast from "react-hot-toast";
 
 const Wishlist = () => {
   const dispatch = useDispatch();
   const wishlistItems = useSelector((state) => state.wishlist);
   const cartItems = useSelector((state) => state.cart);
+  const [productList, setProductList] = useState([]);
 
   const isItemInCart = (item) => {
-    return cartItems?.some((cartItem) => cartItem.id === item.id);
+    return cartItems?.some((cartItem) => cartItem.id === item._id);
   };
+
+  // function to fetch product list
+  const fetchProduct = async () => {
+    try {
+      const response = await api.get(`/product`);
+      if (response.status === 200) {
+        setProductList(response.data.productList);
+      } else {
+        toast.error(response.data.msg);
+      }
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  useEffect(() => {
+    fetchProduct();
+  }, []);
+
+  const productInWishlist = productList.filter((product) =>
+    wishlistItems.some((item) => item.id === product._id)
+  );
 
   return (
     <>
@@ -29,7 +54,7 @@ const Wishlist = () => {
       </section>
       <section className="py-24 bg-gray-100">
         <div className="container">
-          {wishlistItems.length > 0 ? (
+          {productInWishlist?.length > 0 ? (
             <div className="space-y-8">
               <h2 className="text-3xl font-semibold">Your Wishlist</h2>
               <div className="bg-white">
@@ -43,11 +68,11 @@ const Wishlist = () => {
                     </tr>
                   </thead>
                   <tbody>
-                    {wishlistItems.map((item, id) => (
+                    {productInWishlist?.map((item, id) => (
                       <tr key={id} className="border-b">
                         <td className="flex flex-col ps-4 py-3">
                           <img
-                            src={item.image}
+                            src={item.productImages[0]}
                             alt={item.productName}
                             className="w-32 h-32 object-contain"
                           />
@@ -61,7 +86,7 @@ const Wishlist = () => {
                         <td className="ps-6 py-3">
                           <button
                             disabled={isItemInCart(item)}
-                            onClick={() => dispatch(addToCart(item))}
+                            onClick={() => dispatch(addToCart(item._id))}
                             className={`py-1 px-2 text-white ${
                               isItemInCart(item)
                                 ? "bg-green-500"
@@ -73,7 +98,9 @@ const Wishlist = () => {
                         </td>
                         <td className="ps-6 py-3">
                           <button
-                            onClick={() => dispatch(removeFromWishlist(item))}
+                            onClick={() =>
+                              dispatch(removeFromWishlist({ id: item._id }))
+                            }
                             className="py-1 px-2 bg-red-500 text-white"
                           >
                             Remove

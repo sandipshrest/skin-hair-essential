@@ -1,20 +1,46 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import {
   removeFromCart,
   updateCartItemQuantity,
 } from "../../../redux/reducerSlice/CartSlice";
+import api from "../../../api/axios";
+import toast from "react-hot-toast";
 
 const Cart = () => {
   const dispatch = useDispatch();
   const cartItems = useSelector((state) => state.cart);
+  const [productList, setProductList] = useState([]);
 
   const handleQuantityChange = (item, change) => {
     dispatch(updateCartItemQuantity({ itemId: item.id, change }));
   };
 
-  const totalPrice = cartItems.reduce(
+  // function to fetch product list
+  const fetchProduct = async () => {
+    try {
+      const response = await api.get(`/product`);
+      if (response.status === 200) {
+        setProductList(response.data.productList);
+      } else {
+        toast.error(response.data.msg);
+      }
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  useEffect(() => {
+    fetchProduct();
+  }, []);
+
+  const productInCart = cartItems.map((cartItem) => ({
+    ...productList.find((product) => product._id === cartItem.id),
+    quantity: cartItem.quantity,
+  }));
+
+  const totalPrice = productInCart.reduce(
     (total, item) => total + item.price * item.quantity,
     0
   );
@@ -35,7 +61,7 @@ const Cart = () => {
       </section>
       <section className="py-24 bg-gray-100">
         <div className="container">
-          {cartItems.length > 0 ? (
+          {productInCart?.length > 0 ? (
             <div className="space-y-8">
               <h2 className="text-3xl font-semibold">Your Cart</h2>
               <div className="bg-white">
@@ -50,11 +76,11 @@ const Cart = () => {
                       </tr>
                     </thead>
                     <tbody>
-                      {cartItems.map((cartItem, cartId) => (
+                      {productInCart?.map((cartItem, cartId) => (
                         <tr key={cartId} className="border-b">
                           <td className="flex flex-col ps-4 py-3">
                             <img
-                              src={cartItem.image}
+                              src={cartItem?.productImages?.[0]}
                               alt={cartItem.productName}
                               className="w-32 h-32 object-contain"
                             />
