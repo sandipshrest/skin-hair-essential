@@ -51,10 +51,10 @@ const ProductItem = ({ product }) => {
       </div>
       <div className="p-3 space-y-1">
         <small className="text-base font-medium text-gray-800">
-          {product.category.category}
+          {product?.category.category}
         </small>
         <h3 className="text-xl font-semibold text-color3">
-          {product.productName}
+          {product?.productName}
         </h3>
         <p className="text-lg font-semibold text-gray-900">{product.price}</p>
       </div>

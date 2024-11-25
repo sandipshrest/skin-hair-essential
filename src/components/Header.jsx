@@ -15,7 +15,7 @@ const Header = () => {
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
   const [productMenu, setProductMenu] = useState(false);
-  const { isLogin } = useSelector((state) => state.user);
+  const { isLogin, user } = useSelector((state) => state.user);
   const [products, setProducts] = useState([]);
   const [searchProduct, setSearchProduct] = useState([]);
   const [currentSelection, setCurrentSelection] = useState(null);
@@ -250,7 +250,9 @@ const Header = () => {
               <Link to="/login">Login</Link>
             ) : (
               <button onClick={() => setOpen(true)}>
-                <FaRegUser size={20} />
+                <div className="bg-green-700 text-white size-8 text-2xl font-medium rounded-full flex items-center justify-center">
+                  {user?.name[0]}
+                </div>
               </button>
             )}
           </div>

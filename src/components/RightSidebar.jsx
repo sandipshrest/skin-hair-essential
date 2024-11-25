@@ -13,7 +13,7 @@ const RightSidebar = ({ open, setOpen }) => {
   const dispatch = useDispatch();
   const cartItems = useSelector((state) => state.cart);
   const wishlistItems = useSelector((state) => state.wishlist);
-  const { token } = useSelector((state) => state.user);
+  const { token, user } = useSelector((state) => state.user);
 
   //function to logout user
   const handleLogout = async () => {
@@ -47,6 +47,13 @@ const RightSidebar = ({ open, setOpen }) => {
       <div className="flex h-full w-full flex-col justify-between items-start">
         <div className="w-full px-4">
           <ul className="flex flex-col items-start gap-4 font-medium">
+            <li className="w-full flex items-center gap-3">
+              <div className="bg-green-700 text-white size-8 text-2xl font-medium rounded-full flex items-center justify-center">{user?.name?.[0]}</div>
+              <div>
+                <p>{user?.name}</p>
+                <small>{user?.email}</small>
+              </div>
+            </li>
             <li className="w-full">
               <Link
                 onClick={() => setOpen(false)}

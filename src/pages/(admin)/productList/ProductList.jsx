@@ -100,6 +100,11 @@ const ProductList = () => {
       key: "importedCompany",
     },
     {
+      title: "Rating",
+      dataIndex: "rating",
+      key: "rating",
+    },
+    {
       title: "Created At",
       dataIndex: "createdAt",
       key: "createdAt",

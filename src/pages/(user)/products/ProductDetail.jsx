@@ -270,6 +270,17 @@ const ProductDetail = () => {
                 <p className="text-lg font-semibold">
                   Imported From: {productDetail.importedCompany}
                 </p>
+                {productDetail.rating > 0 && (
+                  <div className="flex items-center gap-3">
+                    <p className="flex items-center gap-1 py-0.5 px-1.5 text-sm font-semibold bg-green-700 text-white rounded">
+                      {productDetail.rating}
+                      <FaStar size={12} />
+                    </p>
+                    <p className="text-base font-bold text-gray-600">
+                      {productDetail.totalReview} Reviews
+                    </p>
+                  </div>
+                )}
                 <b className="text-xl font-bold">
                   {productDetail.discount > 0 ? (
                     <div className="flex items-center gap-3">
