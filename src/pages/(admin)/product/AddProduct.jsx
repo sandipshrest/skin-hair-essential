@@ -170,6 +170,7 @@ const AddProduct = () => {
               <div className="flex flex-col items-start gap-2 w-1/3">
                 <label>Is Featured Product</label>
                 <Switch
+                  className="bg-gray-300"
                   onChange={(checked) => {
                     setFieldValue("isFeatured", checked);
                   }}

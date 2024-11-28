@@ -12,7 +12,7 @@ const cartSlice = createSlice({
     },
     updateCartItemQuantity: (state, action) => {
       const { itemId, change } = action.payload;
-      const itemToUpdate = state.find((item) => item._id === itemId);
+      const itemToUpdate = state.find((item) => item.id === itemId);
       if (itemToUpdate) {
         // Ensure the quantity doesn't go below 1
         itemToUpdate.quantity = Math.max(1, itemToUpdate.quantity + change);

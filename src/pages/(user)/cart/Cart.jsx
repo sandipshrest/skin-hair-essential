@@ -92,7 +92,7 @@ const Cart = () => {
                             <div className="flex items-center gap-1">
                               <button
                                 onClick={() =>
-                                  handleQuantityChange(cartItem, -1)
+                                  handleQuantityChange({ id: cartItem._id }, -1)
                                 }
                                 className="text-xl size-7 flex justify-center items-center bg-gray-300"
                               >
@@ -103,7 +103,7 @@ const Cart = () => {
                               </p>
                               <button
                                 onClick={() =>
-                                  handleQuantityChange(cartItem, 1)
+                                  handleQuantityChange({ id: cartItem._id }, 1)
                                 }
                                 className="text-xl size-7 flex justify-center items-center bg-gray-300"
                               >
@@ -118,7 +118,9 @@ const Cart = () => {
                           </td>
                           <td className="ps-6 py-3">
                             <button
-                              onClick={() => dispatch(removeFromCart(cartItem))}
+                              onClick={() =>
+                                dispatch(removeFromCart({ id: cartItem._id }))
+                              }
                               className="py-1 px-2 bg-red-500 text-white rounded"
                             >
                               Remove

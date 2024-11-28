@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import api from "../../../api/axios";
 import toast from "react-hot-toast";
-import { Pagination, Table } from "antd";
+import { Pagination, Switch, Table } from "antd";
 import { FaRegEdit } from "react-icons/fa";
 import { MdDelete } from "react-icons/md";
 import moment from "moment";
@@ -36,6 +36,22 @@ const ProductList = () => {
   const deleteProduct = async (productId) => {
     try {
       const response = await api.delete(`/product/${productId}`);
+      if (response.status === 200) {
+        toast.success(response.data.msg);
+        fetchProduct();
+      } else {
+        toast.error(response.data.msg);
+      }
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  const handleSwitch = async (productId, isFeatured) => {
+    try {
+      const response = await api.patch(`/product/featured/${productId}`, {
+        isFeatured,
+      });
       if (response.status === 200) {
         toast.success(response.data.msg);
         fetchProduct();
@@ -90,8 +106,18 @@ const ProductList = () => {
       title: "Is Featured",
       dataIndex: "isFeatured",
       key: "isFeatured",
-      render: (isFeatured) => {
-        return <span>{isFeatured ? "Yes" : "No"}</span>;
+      render: (isFeatured, record) => {
+        return (
+          <div>
+            <Switch
+              className="bg-gray-300"
+              defaultChecked={isFeatured}
+              onChange={(checked) => {
+                handleSwitch(record._id, checked);
+              }}
+            />
+          </div>
+        );
       },
     },
     {
