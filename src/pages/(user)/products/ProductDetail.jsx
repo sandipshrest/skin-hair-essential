@@ -17,6 +17,7 @@ import { FaLock, FaRegStar, FaStar } from "react-icons/fa";
 import { Modal, Tooltip } from "antd";
 import toast from "react-hot-toast";
 import { HiDotsVertical } from "react-icons/hi";
+import calculateDiscountedPrice from "../../../lib/calculatePrice";
 
 const ProductDetail = () => {
   const navigate = useNavigate();
@@ -103,10 +104,6 @@ const ProductDetail = () => {
     return wishlistItems?.some((wishlistItem) => wishlistItem.id === item?._id);
   };
 
-  // function to calculate discounted price
-  const calculateDiscountedPrice = (price, discount) => {
-    return price - (price * discount) / 100;
-  };
 
   // ratings
   const ratings = [
@@ -304,7 +301,7 @@ const ProductDetail = () => {
                 </b>
                 <div className="flex items-center gap-3 mt-3 text-lg">
                   <button
-                    disabled={isItemInCart(productDetail)}
+                    disabled={!isLogin || isItemInCart(productDetail)}
                     onClick={() => dispatch(addToCart(productDetail?._id))}
                     className={`py-1 px-2 text-white transition-all duration-200 ease-linear ${
                       isItemInCart(productDetail)
@@ -315,7 +312,7 @@ const ProductDetail = () => {
                     Add To Cart
                   </button>
                   <button
-                    disabled={isItemInWishlist(productDetail)}
+                    disabled={!isLogin || isItemInWishlist(productDetail)}
                     onClick={() => dispatch(addToWishlist(productDetail?._id))}
                     className={`py-1 px-2 bg-color3 text-white transition-all duration-200 ease-linear ${
                       isItemInWishlist(productDetail)

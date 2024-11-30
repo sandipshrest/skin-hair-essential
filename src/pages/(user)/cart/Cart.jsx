@@ -7,10 +7,12 @@ import {
 } from "../../../redux/reducerSlice/CartSlice";
 import api from "../../../api/axios";
 import toast from "react-hot-toast";
+import calculateDiscountedPrice from "../../../lib/calculatePrice";
 
 const Cart = () => {
   const dispatch = useDispatch();
   const cartItems = useSelector((state) => state.cart);
+  const { token } = useSelector((state) => state.user);
   const [productList, setProductList] = useState([]);
 
   const handleQuantityChange = (item, change) => {
@@ -41,9 +43,35 @@ const Cart = () => {
   }));
 
   const totalPrice = productInCart.reduce(
-    (total, item) => total + item.price * item.quantity,
+    (total, item) =>
+      total +
+      calculateDiscountedPrice(item.price, item.discount) * item.quantity,
     0
   );
+
+  // function to proceed to checkout
+  const proceedToCheckout = async () => {
+    try {
+      const data = productInCart.map((item) => ({
+        orderedProduct: item._id,
+        quantity: item.quantity,
+      }));
+      const response = await api.post(
+        "/order",
+        { orders: data },
+        {
+          headers: { Authorization: `Bearer ${token?.accessToken}` },
+        }
+      );
+      if (response.status === 200) {
+        toast.success(response.data.msg);
+      } else {
+        toast.error(response.data.msg);
+      }
+    } catch (err) {
+      console.error(err);
+    }
+  };
 
   return (
     <>
@@ -113,7 +141,10 @@ const Cart = () => {
                           </td>
                           <td className="ps-6 py-3 text-lg font-medium">
                             <p className="w-20">
-                              {cartItem.price * cartItem.quantity}
+                              {calculateDiscountedPrice(
+                                cartItem.price,
+                                cartItem.discount
+                              ) * cartItem.quantity}
                             </p>
                           </td>
                           <td className="ps-6 py-3">
@@ -136,7 +167,10 @@ const Cart = () => {
                     Total: {totalPrice}
                   </div>
                   <div>
-                    <button className="py-1 px-2 bg-color1 text-white rounded">
+                    <button
+                      onClick={proceedToCheckout}
+                      className="py-1 px-2 bg-color1 text-white rounded"
+                    >
                       Proceed to Checkout
                     </button>
                   </div>
