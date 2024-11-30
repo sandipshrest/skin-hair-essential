@@ -24,6 +24,7 @@ import AddProduct from "./pages/(admin)/product/AddProduct";
 import SearchProduct from "./pages/(user)/searchProduct/SearchProduct";
 import { useSelector } from "react-redux";
 import FeedbackList from "./pages/(admin)/feedbackList/FeedbackList";
+import OrderList from "./pages/(admin)/orderList/OrderList";
 
 function App() {
   const { isLogin, user } = useSelector((state) => state.user);
@@ -77,6 +78,7 @@ function App() {
               path="/dashboard/feedbackList"
               element={<FeedbackList />}
             />
+            <Route exact path="/dashboard/orderList" element={<OrderList />} />
           </Route>
         </Routes>
         <ScrollToTop />
