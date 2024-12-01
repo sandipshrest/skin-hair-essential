@@ -70,20 +70,23 @@ const ProductList = () => {
       dataIndex: "",
       key: "",
       render: (text, record, index) => {
-        return <span>{index + 1}</span>;
+        return <p className="text-base font-medium">{index + 1}</p>;
       },
     },
     {
       title: "Product Name",
       dataIndex: "productName",
       key: "productName",
+      render: (productName) => {
+        return <p className="text-base font-medium">{productName}</p>;
+      },
     },
     {
       title: "Category",
       dataIndex: "category",
       key: "category",
       render: (category) => {
-        return <span>{category.category}</span>;
+        return <p className="text-base font-medium">{category.category}</p>;
       },
     },
     {
@@ -91,7 +94,7 @@ const ProductList = () => {
       dataIndex: "price",
       key: "price",
       render: (price) => {
-        return <span>Rs.{price}</span>;
+        return <p className="text-base font-medium">Rs.{price}</p>;
       },
     },
     {
@@ -99,7 +102,7 @@ const ProductList = () => {
       dataIndex: "discount",
       key: "discount",
       render: (discount) => {
-        return <span>{discount}%</span>;
+        return <p className="text-base font-medium">{discount}%</p>;
       },
     },
     {
@@ -124,18 +127,28 @@ const ProductList = () => {
       title: "Imported From",
       dataIndex: "importedCompany",
       key: "importedCompany",
+      render: (importedCompany) => {
+        return <p className="text-base font-medium">{importedCompany}</p>;
+      },
     },
     {
       title: "Rating",
       dataIndex: "rating",
       key: "rating",
+      render: (rating) => {
+        return <p className="text-base font-medium">{rating}</p>;
+      },
     },
     {
       title: "Created At",
       dataIndex: "createdAt",
       key: "createdAt",
       render: (createdAt) => {
-        return <span>{moment(createdAt).format("LL")}</span>;
+        return (
+          <p className="text-base font-medium">
+            {moment(createdAt).format("LL")}
+          </p>
+        );
       },
     },
     {

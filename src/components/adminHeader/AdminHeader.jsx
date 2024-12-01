@@ -14,7 +14,7 @@ const AdminHeader = () => {
   //function to logout user
   const handleLogout = async () => {
     try {
-      const response = await api.delete("/user/logout", {
+      const response = await api.delete("/auth/logout", {
         headers: {
           Authorization: `Bearer ${token?.accessToken}`,
         },

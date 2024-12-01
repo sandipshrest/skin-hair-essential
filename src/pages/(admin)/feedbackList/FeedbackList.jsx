@@ -52,20 +52,23 @@ const FeedbackList = () => {
       dataIndex: "",
       key: "",
       render: (text, record, index) => {
-        return <span>{index + 1}</span>;
+        return <p className="text-base font-medium">{index + 1}</p>;
       },
     },
     {
       title: "Feedback",
       dataIndex: "feedback",
       key: "feedback",
+      render: (feedback) => {
+        return <p className="text-base font-medium">{feedback}</p>;
+      },
     },
     {
       title: "Rating",
       dataIndex: "rating",
       key: "rating",
       render: (rating) => {
-        return <span>{rating}</span>;
+        return <p className="text-base font-medium">{rating}</p>;
       },
     },
     {
@@ -73,7 +76,7 @@ const FeedbackList = () => {
       dataIndex: "product",
       key: "product",
       render: (product) => {
-        return <span>{product?.productName}</span>;
+        return <p className="text-base font-medium">{product?.productName}</p>;
       },
     },
     {
@@ -81,7 +84,7 @@ const FeedbackList = () => {
       dataIndex: "postedBy",
       key: "postedBy",
       render: (postedBy) => {
-        return <span>{postedBy.name}</span>;
+        return <p className="text-base font-medium">{postedBy.name}</p>;
       },
     },
     {
@@ -89,7 +92,7 @@ const FeedbackList = () => {
       dataIndex: "updatedAt",
       key: "updatedAt",
       render: (updatedAt) => {
-        return <span>{moment(updatedAt).format("LL")}</span>;
+        return <p className="text-base font-medium">{moment(updatedAt).format("LL")}</p>;
       },
     },
     {

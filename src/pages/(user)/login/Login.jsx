@@ -21,7 +21,7 @@ const Login = () => {
   // function to handle login
   const handleLogin = async (values) => {
     try {
-      const response = await api.post("/user/login", values);
+      const response = await api.post("/auth/login", values);
       if (response.status === 200) {
         toast.success(response.data.msg);
         response.data.user?.role?.toLowerCase() === "user"

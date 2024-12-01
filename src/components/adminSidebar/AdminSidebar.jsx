@@ -79,7 +79,10 @@ const AdminSidebar = ({ open }) => {
             </Link>
           </li>
           <li className={cn("w-full group/sidebar")}>
-            <Link className="w-full flex items-center gap-2" to="">
+            <Link
+              className="w-full flex items-center gap-2"
+              to="/dashboard/customerList"
+            >
               <MdPeopleAlt size={24} />
               {open && <p>Customers</p>}
             </Link>

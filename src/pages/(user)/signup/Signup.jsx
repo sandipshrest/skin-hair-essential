@@ -34,7 +34,7 @@ const Signup = () => {
         password: values.password,
       };
 
-      const response = await api.post("/user/signup", data);
+      const response = await api.post("/auth/signup", data);
       if (response.status === 200) {
         toast.success(response.data.msg);
         navigate("/login");
