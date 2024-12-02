@@ -26,6 +26,7 @@ import { useSelector } from "react-redux";
 import FeedbackList from "./pages/(admin)/feedbackList/FeedbackList";
 import OrderList from "./pages/(admin)/orderList/OrderList";
 import CustomerList from "./pages/(admin)/customerList/CustomerList";
+import Banner from "./pages/(admin)/banner/Banner";
 
 function App() {
   const { isLogin, user } = useSelector((state) => state.user);
@@ -81,6 +82,7 @@ function App() {
             />
             <Route exact path="/dashboard/orderList" element={<OrderList />} />
             <Route exact path="/dashboard/customerList" element={<CustomerList />} />
+            <Route exact path="/dashboard/banner" element={<Banner />} />
           </Route>
         </Routes>
         <ScrollToTop />

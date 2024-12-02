@@ -1,7 +1,7 @@
 import React, { useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import { cn } from "../../lib/utils";
-import { MdDashboard, MdPeopleAlt } from "react-icons/md";
+import { MdDashboard, MdPeopleAlt, MdContentCopy } from "react-icons/md";
 import { GrCatalogOption } from "react-icons/gr";
 import { RiFeedbackFill } from "react-icons/ri";
 import { FiShoppingCart } from "react-icons/fi";
@@ -9,7 +9,7 @@ import { FaAngleDown } from "react-icons/fa6";
 
 const AdminSidebar = ({ open }) => {
   const [showDropdown, setShowDropdown] = useState(false);
-  const dropdownRef = useRef(null);
+  const [showContentDropdown, setShowContentDropdown] = useState(false);
   return (
     <aside className={`w-full py-16 h-full relative`}>
       <nav>
@@ -95,6 +95,50 @@ const AdminSidebar = ({ open }) => {
               <FiShoppingCart size={24} />
               {open && <p>Order</p>}
             </Link>
+          </li>
+          <li
+            className={cn("w-full group/sidebar space-y-2")}
+            onMouseEnter={() => setShowContentDropdown(true)}
+            onMouseLeave={() => setShowContentDropdown(false)}
+          >
+            <button className="w-full text-start flex items-center gap-2">
+              <MdContentCopy size={24} />
+              {open && (
+                <p className="w-full flex items-center justify-between gap-3">
+                  Content
+                  <FaAngleDown
+                    size={16}
+                    className={`${
+                      showContentDropdown && "rotate-180"
+                    } transition-all duration-200 ease-linear`}
+                  />
+                </p>
+              )}
+            </button>
+            <div
+              className={` ${
+                showContentDropdown ? "h-[100px]" : "h-0 overflow-hidden"
+              } bg-black text-white transition-all duration-200 ease-linear`}
+            >
+              <ul className="flex flex-col items-start gap-2 p-4">
+                <li className="w-full">
+                  <Link
+                    className="w-full inline-block"
+                    to="/dashboard/banner"
+                  >
+                    Banner
+                  </Link>
+                </li>
+                <li className="w-full">
+                  <Link
+                    className="w-full inline-block"
+                    to="/dashboard/marketing"
+                  >
+                    Marketing
+                  </Link>
+                </li>
+              </ul>
+            </div>
           </li>
         </ul>
       </nav>
