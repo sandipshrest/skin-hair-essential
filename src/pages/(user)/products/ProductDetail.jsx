@@ -18,6 +18,7 @@ import { Modal, Tooltip } from "antd";
 import toast from "react-hot-toast";
 import { HiDotsVertical } from "react-icons/hi";
 import calculateDiscountedPrice from "../../../lib/calculatePrice";
+import { Helmet } from "react-helmet";
 
 const ProductDetail = () => {
   const navigate = useNavigate();
@@ -103,7 +104,6 @@ const ProductDetail = () => {
   const isItemInWishlist = (item) => {
     return wishlistItems?.some((wishlistItem) => wishlistItem.id === item?._id);
   };
-
 
   // ratings
   const ratings = [
@@ -196,6 +196,18 @@ const ProductDetail = () => {
 
   return (
     <>
+      <Helmet>
+        <title>Skin N Hair Essentials | {productName}</title>
+        <meta
+          name="description"
+          content={`Discover the ${productName} from Skin N Hair Essentials, a premium product in the ${productDetail?.category?.category} category. Perfect for enhancing your beauty routine.`}
+        />
+        <meta
+          name="keywords"
+          content={`${productName}, Skin N Hair Essentials, ${productDetail?.category?.category}, Beauty Products, Natural Products`}
+        />
+        <meta name="author" content="Skin N Hair Essentials" />
+      </Helmet>
       <section className="pt-32 pb-6 bg-green-700 bg-opacity-15">
         <div className="container">
           <ul className="flex items-center text-lg gap-2 font-medium">

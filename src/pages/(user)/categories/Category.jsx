@@ -4,6 +4,7 @@ import ProductData from "../../../data/ProductData";
 import ProductItem from "../../../components/ProductItem";
 import api from "../../../api/axios";
 import toast from "react-hot-toast";
+import { Helmet } from "react-helmet";
 
 const Category = () => {
   const { category } = useParams();
@@ -29,6 +30,18 @@ const Category = () => {
 
   return (
     <>
+      <Helmet>
+        <title>Skin N Hair Essentials | {category} Products</title>
+        <meta
+          name="description"
+          content={`Explore a wide range of ${category} products at Skin N Hair Essentials. Discover quality beauty and natural products tailored for you.`}
+        />
+        <meta
+          name="keywords"
+          content={`${category}, Skin N Hair Essentials, Beauty Products, Natural Products`}
+        />
+        <meta name="author" content="Skin N Hair Essentials" />
+      </Helmet>
       <section className="pt-32 pb-6 bg-green-700 bg-opacity-15">
         <div className="container">
           <ul className="flex items-center text-lg gap-2 font-medium">

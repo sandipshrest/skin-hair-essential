@@ -48,7 +48,9 @@ const RightSidebar = ({ open, setOpen }) => {
         <div className="w-full px-4">
           <ul className="flex flex-col items-start gap-4 font-medium">
             <li className="w-full flex items-center gap-3">
-              <div className="bg-green-700 text-white size-8 text-2xl font-medium rounded-full flex items-center justify-center">{user?.name?.[0]}</div>
+              <div className="bg-green-700 text-white size-8 text-2xl font-medium rounded-full flex items-center justify-center">
+                {user?.name?.[0]}
+              </div>
               <div>
                 <p>{user?.name}</p>
                 <small>{user?.email}</small>
@@ -57,7 +59,7 @@ const RightSidebar = ({ open, setOpen }) => {
             <li className="w-full">
               <Link
                 onClick={() => setOpen(false)}
-                to="/"
+                to="/profile"
                 className="flex w-full items-center gap-3 py-1"
               >
                 <FaRegUser size={20} />

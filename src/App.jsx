@@ -27,6 +27,7 @@ import FeedbackList from "./pages/(admin)/feedbackList/FeedbackList";
 import OrderList from "./pages/(admin)/orderList/OrderList";
 import CustomerList from "./pages/(admin)/customerList/CustomerList";
 import Banner from "./pages/(admin)/banner/Banner";
+import Profile from "./pages/(user)/profile/Profile";
 
 function App() {
   const { isLogin, user } = useSelector((state) => state.user);
@@ -38,10 +39,31 @@ function App() {
           <Route path="/" element={<MainLayout />}>
             <Route exact index element={<Homepage />} />
             <Route exact path="/about" element={<About />} />
-            <Route exact path="/cart" element={<Cart />} />
-            <Route exact path="/login" element={<Login />} />
-            <Route exact path="/signup" element={<Signup />} />
-            <Route exact path="/wishlist" element={<Wishlist />} />
+            <Route
+              exact
+              path="/cart"
+              element={isLogin ? <Cart /> : <Navigate to="/login" />}
+            />
+            <Route
+              exact
+              path="/profile"
+              element={isLogin ? <Profile /> : <Navigate to="/login" />}
+            />
+            <Route
+              exact
+              path="/wishlist"
+              element={isLogin ? <Wishlist /> : <Navigate to="/login" />}
+            />
+            <Route
+              exact
+              path="/login"
+              element={isLogin ? <Navigate to="/" /> : <Login />}
+            />
+            <Route
+              exact
+              path="/signup"
+              element={isLogin ? <Navigate to="/" /> : <Signup />}
+            />
             <Route exact path="/searchProduct" element={<SearchProduct />} />
             <Route exact path="/categories/:category" element={<Category />} />
             <Route
@@ -81,7 +103,11 @@ function App() {
               element={<FeedbackList />}
             />
             <Route exact path="/dashboard/orderList" element={<OrderList />} />
-            <Route exact path="/dashboard/customerList" element={<CustomerList />} />
+            <Route
+              exact
+              path="/dashboard/customerList"
+              element={<CustomerList />}
+            />
             <Route exact path="/dashboard/banner" element={<Banner />} />
           </Route>
         </Routes>

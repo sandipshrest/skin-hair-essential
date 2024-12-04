@@ -7,7 +7,7 @@ import toast from "react-hot-toast";
 import { logoutUser } from "../../redux/reducerSlice/UserSlice";
 
 const AdminHeader = () => {
-  const { token } = useSelector((state) => state.user);
+  const { token, user } = useSelector((state) => state.user);
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
@@ -37,9 +37,23 @@ const AdminHeader = () => {
         <Link to="/dashboard">
           <img src="/images/logo.png" alt="logo" className="size-16" />
         </Link>
-        <button onClick={() => handleLogout()} className="text-lg font-medium">
-          Log out
-        </button>
+        <div className="flex items-center gap-8">
+          <div className="flex items-center gap-2">
+            <div className="bg-green-700 text-white size-8 text-2xl font-medium rounded-full flex items-center justify-center">
+              {user?.name[0]}
+            </div>
+            <div className="flex flex-col items-start">
+              <p className="text-lg font-medium">{user?.name}</p>
+              <small>{user?.role}</small>
+            </div>
+          </div>
+          <button
+            onClick={() => handleLogout()}
+            className="text-lg font-medium"
+          >
+            Log out
+          </button>
+        </div>
       </div>
     </header>
   );

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import {
   Pagination,
@@ -13,8 +13,27 @@ import "swiper/css/pagination";
 import "swiper/css/scrollbar";
 import "swiper/css/effect-fade";
 import BannerData from "../../../../data/BannerData";
+import api from "../../../../api/axios";
 
 const Banner = () => {
+  const [bannerList, setBannerList] = useState([]);
+
+  // handle fetch banner list
+  const fetchBannerList = async () => {
+    try {
+      const response = await api.get("/banner");
+      if (response.status === 200) {
+        setBannerList(response.data.banners);
+      }
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  useEffect(() => {
+    fetchBannerList();
+  }, []);
+
   return (
     <section className="w-full h-auto bg-gradient-to-tr from-green-100 to-blue-100">
       <Swiper
@@ -40,15 +59,15 @@ const Banner = () => {
         }}
         speed={4000}
       >
-        {BannerData.map((item, index) => (
+        {bannerList?.map((item, index) => (
           <SwiperSlide key={index}>
             <div className="container h-full w-full flex justify-between items-center inset-0">
               <div className="xl:w-1/2 md:w-2/3 w-full flex flex-col items-start gap-5">
                 <h1 className="lg:text-6xl md:text-5xl sm:text-4xl text-3xl font-semibold">
                   <span className="mr-1 text-color2">
-                    {item.slogan.split(" ").slice(0, 2).join(" ")}
+                    {item.title.split(" ").slice(0, 2).join(" ")}
                   </span>
-                  {item.slogan.split(" ").slice(2).join(" ")}
+                  {item.title.split(" ").slice(2).join(" ")}
                 </h1>
                 <a
                   href="#"
@@ -61,7 +80,7 @@ const Banner = () => {
               </div>
               <div>
                 <img
-                  src={item.imageUrl}
+                  src={item.bannerImage}
                   className="w-full lg:h-[850px] md:h-[600px] sm:h-[500px] h-[350px] object-cover"
                   alt="banner-image"
                 />
