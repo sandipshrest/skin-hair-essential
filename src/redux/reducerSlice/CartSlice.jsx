@@ -18,8 +18,11 @@ const cartSlice = createSlice({
         itemToUpdate.quantity = Math.max(1, itemToUpdate.quantity + change);
       }
     },
+    clearCart: (state) => {
+      return [];
+    },
   },
 });
-export const { addToCart, removeFromCart, updateCartItemQuantity } =
+export const { addToCart, removeFromCart, updateCartItemQuantity, clearCart } =
   cartSlice.actions;
 export default cartSlice.reducer;

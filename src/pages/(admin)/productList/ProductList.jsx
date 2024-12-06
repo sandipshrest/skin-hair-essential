@@ -12,11 +12,15 @@ const ProductList = () => {
   const [page, setPage] = useState(1);
   const [total, setTotal] = useState(0);
   const [openPopup, setOpenPopup] = useState(null);
+  // const [pageSize, setPageSize] = useState(10);
+  const pageSize = 10;
 
   // function to fetch product list
   const fetchProduct = async () => {
     try {
-      const response = await api.get(`/product?page=${page}`);
+      const response = await api.get(
+        `/product?page=${page}&pageSize=${pageSize}`
+      );
       if (response.status === 200) {
         setProductList(response.data.productList);
         setTotal(response.data.totalProduct);
@@ -77,8 +81,17 @@ const ProductList = () => {
       title: "Product Name",
       dataIndex: "productName",
       key: "productName",
-      render: (productName) => {
-        return <p className="text-base font-medium">{productName}</p>;
+      render: (productName, record) => {
+        return (
+          <div className="flex items-center gap-2">
+            <img
+              src={record.productImages[0]}
+              alt="product"
+              className="size-20 rounded-full object-contain"
+            />
+            <p className="text-base font-medium">{productName}</p>
+          </div>
+        );
       },
     },
     {
@@ -217,6 +230,7 @@ const ProductList = () => {
         <Pagination
           defaultCurrent={page}
           onChange={(page) => setPage(page)}
+          pageSize={pageSize}
           total={total}
         />
       </div>

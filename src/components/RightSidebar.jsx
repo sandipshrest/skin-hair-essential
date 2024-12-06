@@ -4,12 +4,14 @@ import { useDispatch, useSelector } from "react-redux";
 import { logoutUser } from "../redux/reducerSlice/UserSlice";
 import toast from "react-hot-toast";
 import { MdLogout } from "react-icons/md";
-import { Link } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { BsCart3 } from "react-icons/bs";
 import { FaRegHeart, FaRegUser } from "react-icons/fa6";
 import api from "../api/axios";
 
 const RightSidebar = ({ open, setOpen }) => {
+  const { pathname } = useLocation();
+  const navigate = useNavigate();
   const dispatch = useDispatch();
   const cartItems = useSelector((state) => state.cart);
   const wishlistItems = useSelector((state) => state.wishlist);
@@ -27,6 +29,13 @@ const RightSidebar = ({ open, setOpen }) => {
         dispatch(logoutUser());
         setOpen(false);
         toast.success(response.data.msg);
+        if (
+          pathname === "/cart" ||
+          pathname === "/wishlist" ||
+          pathname === "/profile"
+        ) {
+          navigate("/");
+        }
       } else {
         toast.error("Failed to logout!");
       }

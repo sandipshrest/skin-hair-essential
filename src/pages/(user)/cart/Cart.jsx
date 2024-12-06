@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import {
+  clearCart,
   removeFromCart,
   updateCartItemQuantity,
 } from "../../../redux/reducerSlice/CartSlice";
@@ -55,6 +56,8 @@ const Cart = () => {
       const data = productInCart.map((item) => ({
         orderedProduct: item._id,
         quantity: item.quantity,
+        price:
+          calculateDiscountedPrice(item.price, item.discount) * item.quantity,
       }));
       const response = await api.post(
         "/order",
@@ -65,6 +68,7 @@ const Cart = () => {
       );
       if (response.status === 200) {
         toast.success(response.data.msg);
+        dispatch(clearCart());
       } else {
         toast.error(response.data.msg);
       }

@@ -54,8 +54,8 @@ const OrderList = () => {
       dataIndex: "orderId",
       key: "orderId",
       render: (orderId) => {
-        return <p className="text-base font-medium">{orderId}</p>
-      }
+        return <p className="text-base font-medium">{orderId}</p>;
+      },
     },
     {
       title: "Customer",
@@ -75,7 +75,9 @@ const OrderList = () => {
       dataIndex: "orderedProduct",
       key: "orderedProduct",
       render: (orderedProduct) => {
-        return <p className="text-base font-medium">{orderedProduct?.productName}</p>;
+        return (
+          <p className="text-base font-medium">{orderedProduct?.productName}</p>
+        );
       },
     },
     {
@@ -87,6 +89,14 @@ const OrderList = () => {
       },
     },
     {
+      title: "Price",
+      dataIndex: "price",
+      key: "price",
+      render: (price) => {
+        return <p className="text-base font-medium">{price}</p>;
+      },
+    },
+    {
       title: "Status",
       dataIndex: "orderStatus",
       key: "orderStatus",
@@ -95,11 +105,15 @@ const OrderList = () => {
       },
     },
     {
-      title: "Posted At",
+      title: "Ordered At",
       dataIndex: "updatedAt",
       key: "updatedAt",
       render: (updatedAt) => {
-        return <p className="text-base font-medium">{moment(updatedAt).format("LL")}</p>;
+        return (
+          <p className="text-base font-medium">
+            {moment(updatedAt).format("LL")}
+          </p>
+        );
       },
     },
     {

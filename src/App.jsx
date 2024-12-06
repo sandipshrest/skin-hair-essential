@@ -57,7 +57,17 @@ function App() {
             <Route
               exact
               path="/login"
-              element={isLogin ? <Navigate to="/" /> : <Login />}
+              element={
+                isLogin ? (
+                  user?.role?.toLowerCase() === "user" ? (
+                    <Navigate to="/" />
+                  ) : (
+                    <Navigate to="/dashboard" />
+                  )
+                ) : (
+                  <Login />
+                )
+              }
             />
             <Route
               exact
