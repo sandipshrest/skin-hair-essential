@@ -19,6 +19,8 @@ import toast from "react-hot-toast";
 import { HiDotsVertical } from "react-icons/hi";
 import calculateDiscountedPrice from "../../../lib/calculatePrice";
 import { Helmet } from "react-helmet";
+import ReactImageGallery from "react-image-gallery";
+import "react-image-gallery/styles/css/image-gallery.css";
 
 const ProductDetail = () => {
   const navigate = useNavigate();
@@ -235,7 +237,53 @@ const ProductDetail = () => {
           <div className="container flex gap-14">
             <div className="w-1/3 px-6">
               <div className="w-full sticky top-28">
-                <ReactImageMagnify
+                {productDetail?.productImages?.length > 0 && (
+                  <ReactImageGallery
+                    showNav={false}
+                    showFullscreenButton={false}
+                    showPlayButton={false}
+                    items={productDetail?.productImages?.map((item) => ({
+                      original: item,
+                      thumbnail: item,
+                    }))}
+                    slideOnThumbnailOver={true}
+                    renderItem={(item) => (
+                      <ReactImageMagnify
+                        imageProps={{
+                          alt: productName,
+                          height: 450,
+                          src: item.original,
+                          className:
+                            "h-[450px] object-contain bg-color3 bg-opacity-20",
+                        }}
+                        magnifiedImageProps={{
+                          height: 800,
+                          src: item.original,
+                          width: 800,
+                          className: "object-contain bg-white",
+                        }}
+                        magnifyContainerProps={{
+                          width: 450,
+                          height: 450,
+                          style: {
+                            position: "absolute",
+                            top: "-230px",
+                            left: "0",
+                            width: "450px",
+                          },
+                        }}
+                        onActivationChanged={function noRefCheck() {}}
+                        onDetectedEnvironmentChanged={function noRefCheck() {}}
+                        onPositionChanged={function noRefCheck() {}}
+                        portalProps={{
+                          horizontalOffset: 10,
+                          id: "portal-test-id",
+                        }}
+                      />
+                    )}
+                  />
+                )}
+                {/* <ReactImageMagnify
                   imageProps={{
                     alt: productName,
                     height: 450,
@@ -264,7 +312,7 @@ const ProductDetail = () => {
                     horizontalOffset: 10,
                     id: "portal-test-id",
                   }}
-                />
+                /> */}
               </div>
             </div>
             <div className="w-2/3 flex flex-col gap-12">
