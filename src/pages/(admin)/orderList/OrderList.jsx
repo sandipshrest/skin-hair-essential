@@ -4,6 +4,7 @@ import { Table } from "antd";
 import { MdDelete } from "react-icons/md";
 import moment from "moment";
 import toast from "react-hot-toast";
+import { getOrderStatusColor } from "../../../lib/getOrderStatusColor";
 const OrderList = () => {
   const [orderList, setOrderList] = useState([]);
   const [openPopup, setOpenPopup] = useState(null);
@@ -101,7 +102,17 @@ const OrderList = () => {
       dataIndex: "orderStatus",
       key: "orderStatus",
       render: (orderStatus) => {
-        return <p className="text-base font-medium">{orderStatus}</p>;
+        return (
+          <div className="flex items-center justify-start">
+            <p
+              className={`py-1 px-2 text-base font-medium ${getOrderStatusColor(
+                orderStatus
+              )}`}
+            >
+              {orderStatus}
+            </p>
+          </div>
+        );
       },
     },
     {

@@ -2,6 +2,7 @@ import { Table } from "antd";
 import React, { useEffect, useState } from "react";
 import api from "../../../../api/axios";
 import moment from "moment";
+import { getOrderStatusColor } from "../../../../lib/getOrderStatusColor";
 
 const OrderList = () => {
   const [orderList, setOrderList] = useState([]);
@@ -43,6 +44,14 @@ const OrderList = () => {
       },
     },
     {
+      title: "Customer",
+      dataIndex: "orderedBy",
+      key: "orderedBy",
+      render: (orderedBy) => {
+        return <p className="text-base font-medium">{orderedBy?.name}</p>;
+      },
+    },
+    {
       title: "Quantity",
       dataIndex: "quantity",
       key: "quantity",
@@ -58,6 +67,36 @@ const OrderList = () => {
         return <p className="text-base font-medium">{price}</p>;
       },
     },
+    {
+      title: "Status",
+      dataIndex: "orderStatus",
+      key: "orderStatus",
+      render: (orderStatus) => {
+        return (
+          <div className="flex items-center justify-start">
+            <p
+              className={`py-1 px-2 text-base font-medium ${getOrderStatusColor(
+                orderStatus
+              )}`}
+            >
+              {orderStatus}
+            </p>
+          </div>
+        );
+      },
+    },
+    {
+      title: "Ordered At",
+      dataIndex: "createdAt",
+      key: "createdAt",
+      render: (createdAt) => {
+        return (
+          <p className="text-base font-medium">
+            {moment(createdAt).format("LL")}
+          </p>
+        );
+      },
+    },
   ];
 
   return (
@@ -68,7 +107,7 @@ const OrderList = () => {
           dataSource={orderList}
           key="orderId"
           columns={columns}
-          pagination={false}
+          pagination={{ pageSize: 5 }}
         />
       </div>
     </div>
