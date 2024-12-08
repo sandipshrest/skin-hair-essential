@@ -1,13 +1,17 @@
 import React, { useEffect, useState } from "react";
 import api from "../../../api/axios";
-import { Table } from "antd";
+import { Select, Table, Tooltip } from "antd";
 import { MdDelete } from "react-icons/md";
 import moment from "moment";
 import toast from "react-hot-toast";
 import { getOrderStatusColor } from "../../../lib/getOrderStatusColor";
+import { FaRegEdit } from "react-icons/fa";
 const OrderList = () => {
   const [orderList, setOrderList] = useState([]);
   const [openPopup, setOpenPopup] = useState(null);
+  const [openEditPopup, setOpenEditPopup] = useState(null);
+
+  const statusOptions = ["HOLD", "PROCESSING", "COMPLETED", "CANCELLED"];
 
   // function to get order list
   const getOrderList = async () => {
@@ -29,6 +33,24 @@ const OrderList = () => {
   const handleDeleteOrder = async (orderId) => {
     try {
       const response = await api.delete(`/order/${orderId}`);
+      if (response.status === 200) {
+        getOrderList();
+        toast.success(response.data.msg);
+      } else {
+        toast.error(response.data.msg);
+      }
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  // function to update order status
+  const handleUpdateOrderStatus = async (orderId, status) => {
+    try {
+      const response = await api.patch(`/order`, {
+        orderId,
+        orderStatus: status,
+      });
       if (response.status === 200) {
         getOrderList();
         toast.success(response.data.msg);
@@ -134,6 +156,39 @@ const OrderList = () => {
           <div className="flex items-center gap-4">
             <button
               onClick={() => {
+                if (openEditPopup === index) {
+                  setOpenEditPopup(null);
+                  return;
+                }
+                setOpenEditPopup(index);
+              }}
+              className="relative"
+            >
+              <Tooltip title="Update Order Status">
+                <FaRegEdit size={20} />
+              </Tooltip>
+              {openEditPopup === index && (
+                <div className="absolute bottom-5 right-2 shadow-md w-[250px] bg-gray-50 text-black p-2 rounded">
+                  <p>Update Order Status</p>
+                  <Select
+                    defaultValue={record.orderStatus}
+                    onChange={(value) => {
+                      handleUpdateOrderStatus(record.orderId, value);
+                      setOpenEditPopup(null);
+                    }}
+                    onClick={(e) => {
+                      e.stopPropagation();
+                    }}
+                    options={statusOptions.map((status) => ({
+                      label: status,
+                      value: status,
+                    }))}
+                  />
+                </div>
+              )}
+            </button>
+            <button
+              onClick={() => {
                 if (openPopup === index) {
                   setOpenPopup(null);
                   return;
@@ -142,7 +197,9 @@ const OrderList = () => {
               }}
               className="text-red-600 relative"
             >
-              <MdDelete size={20} />
+              <Tooltip title="Delete Order">
+                <MdDelete size={20} />
+              </Tooltip>
               {openPopup === index && (
                 <div className="absolute bottom-5 right-2 shadow-md w-[250px] bg-gray-50 text-black p-2 rounded">
                   You want to delete this Order?
